@@ -1,5 +1,12 @@
 name: Rastrear vuelos MDE-BOG
 
+# Presupuesto de Actions (pensado para no salirse NUNCA del plan gratis):
+#  - Repo público: los runners estándar de GitHub no consumen minutos (gratis ilimitado).
+#  - Aun si el repo pasara a privado: 2 ejecuciones/día × ~3 min ≈ 180 min/mes,
+#    menos del 10 % de los 2.000 min/mes del plan Free.
+#  - Un solo job por ejecución (cada job se cobra redondeado al minuto) y tope duro
+#    de 6 min por ejecución con timeout-minutes.
+
 on:
   schedule:
     # 2 veces al día (hora Colombia ≈ 6:41 a.m. y 6:41 p.m.). GitHub usa UTC.
@@ -13,7 +20,7 @@ on:
         default: false
   push:
     branches: [main]
-    paths: ["tracker/**", "config.yaml", "tests/**", "requirements.txt"]
+    paths: ["tracker/**", "tests/**", "requirements.txt"]
 
 permissions:
   contents: write
@@ -23,33 +30,24 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-      - run: pip install -r requirements.txt
-      - run: pytest -q
-
   rastrear:
-    needs: tests
-    # En un push solo se corren los tests; la consulta real va por cron o manual.
-    if: github.event_name != 'push'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -r requirements.txt
+      - run: pip install -q -r requirements.txt
+
+      # En un push solo se validan los cambios de código; no se consulta Google.
+      - name: Tests
+        if: github.event_name == 'push'
+        run: pytest -q
 
       - name: Consultar precios
-        id: run
+        if: github.event_name != 'push'
         env:
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -59,16 +57,16 @@ jobs:
           python -m tracker.main run ${{ inputs.force_serpapi && '--force-serpapi' || '' }}
 
       - name: Subir HTML de diagnóstico (si algo no se pudo leer)
-        if: always()
+        if: always() && github.event_name != 'push'
         uses: actions/upload-artifact@v4
         with:
           name: debug-html
           path: debug/
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 3
 
       - name: Guardar histórico y reporte en el repo
-        if: always()
+        if: always() && github.event_name != 'push'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

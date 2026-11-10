@@ -54,6 +54,14 @@ cron (2x/día) ─▶ tests ─▶ python -m tracker.main run
 
 El pipeline deja de consultar automáticamente después del 20 de marzo de 2027.
 
+## Consumo de GitHub Actions
+
+- El repo es **público**, así que los runners estándar de GitHub **no consumen minutos** del plan gratis.
+- Aun así el workflow está acotado por si algún día lo vuelves privado: 2 ejecuciones al día, un solo job,
+  tope duro de 6 minutos por ejecución (`timeout-minutes`) y máximo 2 intentos por búsqueda.
+  Peor caso ≈ 180 min/mes, menos del 10 % de los 2.000 min/mes del plan Free.
+- Un `push` de código solo corre los tests (≈1 min); no consulta Google.
+
 ## Correr localmente
 
 ```bash

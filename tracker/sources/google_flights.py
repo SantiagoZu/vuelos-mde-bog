@@ -18,7 +18,7 @@ from . import ResultadoFuente
 log = logging.getLogger(__name__)
 
 FUENTE = "google_flights"
-REINTENTOS = 3
+REINTENTOS = 2  # cada intento ya prueba 2 vías (HTML + RPC)
 
 
 DEBUG_DIR = ROOT / "debug"
@@ -160,8 +160,8 @@ def buscar(cfg: Config, run_id: str, ahora: str) -> ResultadoFuente:
                 except Exception as e:  # noqa: BLE001 - scraping: cualquier fallo se reintenta
                     ultimo_error = f"{tramo.nombre} {origen}->{destino}: {type(e).__name__}: {e}"
                     log.warning("Intento %d falló (%s)", intento, ultimo_error)
-                    time.sleep(5 * intento + random.uniform(0, 3))
+                    time.sleep(4 * intento + random.uniform(0, 2))
             if ultimo_error:
                 res.errores.append(ultimo_error)
-            time.sleep(random.uniform(2, 5))  # no martillar a Google
+            time.sleep(random.uniform(1.5, 3))  # no martillar a Google
     return res
