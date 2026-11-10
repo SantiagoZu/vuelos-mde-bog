@@ -3,69 +3,169 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f6f5f2" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#141416" media="(prefers-color-scheme: dark)">
-<title>Vuelos MDE ⇄ BOG · tracker de precios</title>
+<meta name="theme-color" content="#262626">
+<title>Rumbo al Picnic · Vuelos MDE ⇄ BOG</title>
+<link rel="preload" href="vendor/fonts/m-plus-rounded-1c-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="vendor/fonts/bebas-neue-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script src="vendor/chart.umd.min.js"></script>
 <style>
-  :root { --bg:#f6f5f2; --card:#fff; --ink:#1d1d1f; --mute:#6b6b70; --line:#e4e2dc; --acc:#0b6e4f; --hot:#c2410c;
-          --pad:clamp(14px, 3.5vw, 20px); --gap:clamp(12px, 2.5vw, 16px); }
-  @media (prefers-color-scheme: dark) { :root { --bg:#141416; --card:#1d1d20; --ink:#ececee; --mute:#9a9aa2; --line:#2c2c31; --acc:#3fbf8f; --hot:#fb923c; } }
+  /* Tipografías abiertas (SIL OFL) servidas desde el propio repo */
+  @font-face { font-family:"M PLUS Rounded 1c"; font-weight:400; font-display:swap; src:url(vendor/fonts/m-plus-rounded-1c-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family:"M PLUS Rounded 1c"; font-weight:700; font-display:swap; src:url(vendor/fonts/m-plus-rounded-1c-latin-700-normal.woff2) format("woff2"); }
+  @font-face { font-family:"M PLUS Rounded 1c"; font-weight:800; font-display:swap; src:url(vendor/fonts/m-plus-rounded-1c-latin-800-normal.woff2) format("woff2"); }
+  @font-face { font-family:"Bebas Neue"; font-weight:400; font-display:swap; src:url(vendor/fonts/bebas-neue-latin-400-normal.woff2) format("woff2"); }
+
+  :root {
+    --night:#1b1c1a; --night-2:#2e2e2e; --bar:#262626; --panel:rgba(30,30,30,.72);
+    --ink:#e2e8f0; --cream:#fef7e1; --mute:#a3a3a3; --line:rgba(255,255,255,.09);
+    --coral:#ff6f61; --cyan:#4fe3f5; --lilac:#b48cff; --sun:#ffc857; --mint:#7ef0b4;
+    --pad:clamp(16px, 4vw, 24px); --gap:clamp(18px, 3vw, 26px);
+    --display:"Bebas Neue", "Oswald", Impact, sans-serif;
+    --round:"M PLUS Rounded 1c", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
   * { box-sizing:border-box; }
-  html { -webkit-text-size-adjust:100%; }
-  body { margin:0; font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); }
-  main { max-width:1100px; margin:0 auto;
-         padding: clamp(18px, 4vw, 28px) max(var(--pad), env(safe-area-inset-right)) 48px max(var(--pad), env(safe-area-inset-left)); }
-  h1 { font-size:clamp(20px, 5.5vw, 26px); line-height:1.2; margin:0 0 6px; }
-  h2 { font-size:clamp(15px, 4vw, 17px); margin:0 0 12px; line-height:1.3; }
-  h2 .mute { font-weight:500; white-space:nowrap; }
-  .mute { color:var(--mute); font-size:13px; }
-  .grid { display:grid; gap:var(--gap); grid-template-columns:repeat(auto-fit, minmax(min(100%, 340px), 1fr)); margin-top:var(--gap); }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:var(--pad); min-width:0; }
-  .big { font-size:clamp(28px, 8vw, 36px); font-weight:700; letter-spacing:-.5px; font-variant-numeric:tabular-nums; line-height:1.1; margin-bottom:8px; }
-  .hot { color:var(--hot); font-weight:600; }
+  html { -webkit-text-size-adjust:100%; background:var(--night); }
+  body { margin:0; min-height:100vh; font:400 15px/1.5 var(--round); letter-spacing:.01em; color:var(--ink);
+         background: radial-gradient(1200px 600px at 70% -10%, #3a3a3a 0%, transparent 60%),
+                     radial-gradient(900px 500px at 0% 30%, #2f2f2f 0%, transparent 60%),
+                     linear-gradient(180deg, #343434 0%, var(--night) 55%, #141513 100%) fixed; }
 
-  /* Tablas: nunca rompen el ancho; si no caben, scroll horizontal dentro de la tarjeta */
+  /* ---------- Cielo estrellado ---------- */
+  .sky { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .sky::before, .sky::after { content:""; position:absolute; inset:-50%; background-repeat:repeat; }
+  .sky::before { background-image:
+      radial-gradient(1.6px 1.6px at 20px 30px, #fff6d8 50%, transparent 51%),
+      radial-gradient(1.2px 1.2px at 140px 90px, #ffe6a8 50%, transparent 51%),
+      radial-gradient(2px 2px at 260px 160px, #fff 50%, transparent 51%),
+      radial-gradient(1.3px 1.3px at 330px 40px, #ffd98a 50%, transparent 51%),
+      radial-gradient(1px 1px at 90px 220px, #fff 50%, transparent 51%);
+    background-size:380px 260px; opacity:.55; animation:twinkle 6s ease-in-out infinite alternate; }
+  .sky::after { background-image:
+      radial-gradient(2.4px 2.4px at 60px 120px, #ffdca0 50%, transparent 51%),
+      radial-gradient(1.4px 1.4px at 300px 260px, #fff 50%, transparent 51%),
+      radial-gradient(1.8px 1.8px at 480px 60px, #ffe9b8 50%, transparent 51%);
+    background-size:560px 380px; opacity:.4; animation:twinkle 9s ease-in-out infinite alternate-reverse; }
+  .shoot { position:absolute; width:120px; height:2px; border-radius:2px; opacity:0;
+           background:linear-gradient(90deg, rgba(255,214,140,0), #ffe2a6 70%, #fff); filter:drop-shadow(0 0 6px #ffcf7a);
+           transform:rotate(-38deg); animation:shoot 9s linear infinite; }
+  .shoot::after { content:""; position:absolute; right:-3px; top:-3px; width:8px; height:8px; border-radius:50%; background:#fff8e6; box-shadow:0 0 12px 4px #ffcf7a; }
+  .shoot.s1 { top:22%; left:8%; }
+  .shoot.s2 { top:8%; left:62%; animation-delay:4.5s; animation-duration:11s; }
+  @keyframes twinkle { from { opacity:.25; } to { opacity:.7; } }
+  @keyframes shoot { 0% { opacity:0; translate:0 0; } 3% { opacity:1; } 12% { opacity:0; translate:-260px 200px; } 100% { opacity:0; translate:-260px 200px; } }
+  @media (prefers-reduced-motion: reduce) { .sky::before, .sky::after, .shoot { animation:none; } .shoot { display:none; } }
+
+  /* ---------- Barra superior ---------- */
+  header.bar { position:sticky; top:0; z-index:5; background:rgba(38,38,38,.92); backdrop-filter:blur(6px);
+               box-shadow:0 6px 20px rgba(0,0,0,.35); }
+  .bar-in { max-width:1120px; margin:0 auto; display:flex; align-items:center; gap:14px;
+            padding:12px max(var(--pad), env(safe-area-inset-right)) 12px max(var(--pad), env(safe-area-inset-left)); }
+  .brand { font-weight:800; font-size:clamp(15px, 4vw, 18px); color:#fff; display:flex; align-items:center; gap:10px; white-space:nowrap; }
+  .brand .star { color:var(--sun); filter:drop-shadow(0 0 6px rgba(255,200,87,.7)); }
+  .bar .spacer { flex:1; }
+  .btn { display:inline-flex; align-items:center; gap:6px; background:var(--bar); color:#fff; font-weight:700; font-size:14px;
+         padding:9px 16px; border-radius:999px; border:1px solid rgba(255,255,255,.14); text-decoration:none; white-space:nowrap; }
+  .btn:hover { border-color:rgba(255,255,255,.35); }
+
+  main { position:relative; z-index:1; max-width:1120px; margin:0 auto;
+         padding: clamp(22px, 5vw, 44px) max(var(--pad), env(safe-area-inset-right)) 40px max(var(--pad), env(safe-area-inset-left)); }
+
+  /* ---------- Hero ---------- */
+  .hero { text-align:center; margin-bottom:clamp(26px, 5vw, 40px); }
+  .kicker { display:inline-block; font-weight:800; font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+            color:#1b1b1b; background:var(--sun); padding:3px 12px; border-radius:999px; box-shadow:0 0 18px rgba(255,200,87,.45); }
+  .hero h1 { font:400 clamp(54px, 15vw, 120px)/.9 var(--display); letter-spacing:.02em; color:var(--cream); margin:14px 0 6px;
+             text-shadow:0 0 30px rgba(254,247,225,.18); }
+  .hero h1 .x { color:var(--sun); font-size:.8em; vertical-align:.06em; }
+  .hero .sub { color:var(--ink); font-size:clamp(14px, 3.6vw, 17px); }
+  .count { margin-top:16px; display:inline-flex; gap:10px; align-items:baseline; flex-wrap:wrap; justify-content:center; }
+  .count b { font:400 clamp(30px, 8vw, 44px)/1 var(--display); color:var(--sun); letter-spacing:.03em; }
+  .meta { color:var(--mute); font-size:13px; margin-top:12px; }
+  .hot { color:var(--coral); font-weight:800; }
+
+  /* ---------- Tarjetas tipo "cartel" con borde neón ---------- */
+  .grid { display:grid; gap:var(--gap); grid-template-columns:repeat(auto-fit, minmax(min(100%, 360px), 1fr)); margin-top:var(--gap); }
+  .poster { --c:var(--cyan); position:relative; min-width:0; background:var(--panel); border:2px solid var(--c); border-radius:16px;
+            padding:calc(var(--pad) + 8px) var(--pad) var(--pad);
+            box-shadow:0 0 0 1px rgba(255,255,255,.04) inset, 0 0 18px color-mix(in srgb, var(--c) 35%, transparent), 0 0 2px var(--c) inset; }
+  .poster.coral { --c:var(--coral); } .poster.lilac { --c:var(--lilac); } .poster.sun { --c:var(--sun); } .poster.mint { --c:var(--mint); } .poster.cyan { --c:var(--cyan); }
+  .tag { position:absolute; top:-12px; left:16px; background:var(--c); color:#151515; font-weight:800; font-size:11px; letter-spacing:.08em;
+         text-transform:uppercase; padding:3px 12px; border-radius:999px; box-shadow:0 0 14px color-mix(in srgb, var(--c) 60%, transparent); white-space:nowrap; }
+  .poster h2 { font:400 clamp(26px, 6.5vw, 34px)/1 var(--display); letter-spacing:.03em; color:var(--cream); margin:4px 0 12px; }
+  .poster h2 small { font:700 12px/1 var(--round); color:var(--mute); letter-spacing:.02em; margin-left:6px; white-space:nowrap; }
+  .big { font:400 clamp(52px, 14vw, 72px)/.95 var(--display); letter-spacing:.02em; color:var(--cream); }
+  .big .cur { font-size:.55em; color:var(--c); margin-right:2px; vertical-align:.25em; }
+
+  .leg { display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:10px 0; border-top:1px dashed var(--line); }
+  .leg:first-of-type { margin-top:8px; }
+  .leg .when { font-weight:800; color:#fff; }
+  .leg .route { color:var(--c); font-weight:700; }
+  .leg .price { margin-left:auto; font:400 24px/1 var(--display); letter-spacing:.03em; color:var(--cream); }
+  .leg .detail { flex-basis:100%; color:var(--mute); font-size:13px; }
+  .sep { color:var(--c); padding:0 .25em; }
+
+  /* ---------- Tablas ---------- */
   .tw { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 calc(var(--pad) * -1); padding:0 var(--pad); }
-  table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
-  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); font-size:14px; vertical-align:top; }
-  th { color:var(--mute); font-weight:500; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:9px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--mute); font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:.08em; white-space:nowrap; }
+  td { font-size:14px; }
   td.num, th.num { text-align:right; white-space:nowrap; }
-  td.num { font-weight:600; }
-  td.num.mute { font-weight:500; }
-  tr.best td { background:color-mix(in srgb, var(--acc) 11%, transparent); }
+  td.num { font:400 22px/1 var(--display); letter-spacing:.03em; color:var(--cream); }
+  td.num.hist { font-size:18px; color:var(--mute); }
+  td .sub { display:block; color:var(--mute); font-size:12px; margin-top:2px; font-family:var(--round); letter-spacing:0; }
+  td.franja { font-weight:800; color:#fff; }
+  tr.best td { background:color-mix(in srgb, var(--c) 14%, transparent); }
+  tr.best td.franja::after { content:" ✦"; color:var(--c); }
   tr:last-child td { border-bottom:0; }
-  .sub { display:block; color:var(--mute); font-size:12.5px; margin-top:1px; }
-  .pill { display:inline-block; font-size:11px; padding:0 7px; border-radius:99px; border:1px solid var(--line); color:var(--mute); white-space:nowrap; vertical-align:1px; }
-
-  .leg { display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px; padding:8px 0; border-top:1px solid var(--line); }
-  .leg .when { font-weight:600; min-width:7.2em; }
-  .leg .price { margin-left:auto; font-weight:700; font-variant-numeric:tabular-nums; }
-  .leg .detail { flex-basis:100%; }
-
-  .chart { position:relative; height:clamp(220px, 45vw, 320px); }
-  .section-label { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--mute); margin:14px 0 2px; }
+  .pill { display:inline-block; font-size:11px; font-weight:700; padding:1px 8px; border-radius:999px; border:1px solid var(--line); color:var(--mute); white-space:nowrap; }
+  .section-label { font-weight:800; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--c); margin:14px 0 2px; }
   .section-label:first-of-type { margin-top:0; }
+  .chart { position:relative; height:clamp(230px, 46vw, 320px); }
+  .empty { color:var(--mute); }
+  code { font-size:.92em; background:rgba(255,255,255,.07); padding:1px 6px; border-radius:6px; }
+
+  footer { position:relative; z-index:1; text-align:center; color:var(--mute); font-size:12px; padding:10px var(--pad) 36px; }
+  footer .star { color:var(--sun); }
 
   @media (max-width:480px) {
-    th, td { padding:7px 4px; font-size:13.5px; }
+    th, td { padding:8px 4px; }
+    td.num { font-size:20px; }
     .hide-sm { display:none; }
+    .bar .btn { padding:7px 12px; font-size:13px; }
   }
 </style>
 </head>
 <body>
+<div class="sky" aria-hidden="true"><span class="shoot s1"></span><span class="shoot s2"></span></div>
+
+<header class="bar">
+  <div class="bar-in">
+    <div class="brand"><span class="star">✦</span> Rumbo al Picnic</div>
+    <div class="spacer"></div>
+    <a class="btn" href="https://github.com/SantiagoZu/vuelos-mde-bog" rel="noopener">Repo ↗</a>
+  </div>
+</header>
+
 <main>
-  <h1>✈️ Vuelos Medellín ⇄ Bogotá</h1>
-  <div class="mute" id="meta">Cargando…</div>
+  <section class="hero">
+    <span class="kicker">Estéreo Picnic 2027 · 19–21 mar</span>
+    <h1>MDE <span class="x">⇄</span> BOG</h1>
+    <div class="sub">Cazando el vuelo más barato para llegar al festival</div>
+    <div class="count" id="count"></div>
+    <div class="meta" id="meta">Cargando…</div>
+  </section>
 
   <div class="grid">
-    <div class="card">
-      <h2>Viaje completo más barato ahora</h2>
+    <div class="poster sun">
+      <span class="tag">Ahora mismo</span>
+      <h2>Viaje completo <small>ida + vuelta</small></h2>
       <div class="big" id="combo">—</div>
       <div id="comboLegs"></div>
     </div>
-    <div class="card">
-      <h2>Mínimo histórico del viaje completo</h2>
+    <div class="poster lilac">
+      <span class="tag">Récord</span>
+      <h2>Mínimo histórico <small>ida + vuelta</small></h2>
       <div class="big" id="comboMin">—</div>
       <div id="comboMinLegs"></div>
     </div>
@@ -74,122 +174,142 @@
   <div class="grid" id="tramos"></div>
 
   <div class="grid">
-    <div class="card">
-      <h2>Evolución del viaje completo <span class="mute">mínimo diario</span></h2>
+    <div class="poster mint">
+      <span class="tag">Tendencia</span>
+      <h2>Evolución del viaje completo <small>mínimo diario</small></h2>
       <div class="chart"><canvas id="chartCombo"></canvas></div>
     </div>
   </div>
   <div class="grid" id="charts"></div>
 
   <div class="grid">
-    <div class="card" id="aerolineas"><h2>Más barato por aerolínea <span class="mute">última consulta</span></h2></div>
-    <div class="card" id="agencias"><h2>Agencias / OTAs <span class="mute">último chequeo diario</span></h2></div>
+    <div class="poster cyan" id="aerolineas"><span class="tag">Aerolíneas</span><h2>Más barato por aerolínea <small>última consulta</small></h2></div>
+    <div class="poster lilac" id="agencias"><span class="tag">Agencias</span><h2>Agencias / OTAs <small>chequeo diario</small></h2></div>
   </div>
 </main>
+
+<footer>
+  <span class="star">✦</span> Proyecto personal para ir al Festival Estéreo Picnic 2027 · no oficial, sin relación con el festival
+  <span class="star">✦</span>
+</footer>
+
 <script>
-const fmt = n => n == null ? "—" : "$" + Math.round(n).toLocaleString("es-CO");
+const FESTIVAL_INICIO = "2027-03-19";
+const fmtNum = n => Math.round(n).toLocaleString("es-CO");
+const fmt = n => n == null ? "—" : "$" + fmtNum(n);
 const fmtShort = n => n == null ? "" : "$" + Math.round(n / 1000).toLocaleString("es-CO") + "k";
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const FRANJA = { madrugada:"Madrugada", manana:"Mañana", mediodia:"Mediodía", tarde:"Tarde", noche:"Noche" };
 const nomFranja = f => FRANJA[f] || f;
 const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
 const fecha = iso => new Date(iso + "T12:00:00").toLocaleDateString("es-CO", { weekday:"short", day:"numeric", month:"short" });
-const COLORS = ["#2563eb","#0b6e4f","#c2410c","#7c3aed","#be185d","#0891b2"];
+const fechaLarga = iso => new Date(iso + "T12:00:00").toLocaleDateString("es-CO", { weekday:"long", day:"numeric", month:"long" });
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const COLORS = ["--cyan","--coral","--sun","--lilac","--mint"].map(css);
+const COLOR_TRAMO = ["coral", "cyan", "sun", "mint"];
 const small = () => window.matchMedia("(max-width:480px)").matches;
+const bigPrice = n => n == null ? "—" : `<span class="cur">$</span>${fmtNum(n)}`;
+
+// Cuenta regresiva al festival
+(() => {
+  const dias = Math.ceil((new Date(FESTIVAL_INICIO + "T00:00:00-05:00") - new Date()) / 864e5);
+  document.getElementById("count").innerHTML = dias > 0
+    ? `<b>${dias}</b><span>días para el festival</span>` : `<b>¡Es hoy!</b>`;
+})();
 
 const legLine = p => `<div class="leg">
   <span class="when">${esc(fecha(p.fecha_vuelo))} · ${esc(p.hora_salida)}</span>
-  <span>${esc(p.origen)}→${esc(p.destino)}</span>
   <span class="price">${fmt(p.precio)}</span>
-  <span class="detail mute">${esc(p.aerolinea)} ${esc(p.vuelo)} · vía ${esc(p.vendedor)}${p.dia ? ` · visto ${esc(p.dia)}` : ""}</span>
+  <span class="detail"><span class="route">${esc(p.origen)} → ${esc(p.destino)}</span><span class="sep">✦</span>${esc(p.aerolinea)} ${esc(p.vuelo)}<span class="sep">✦</span>vía ${esc(p.vendedor)}${p.dia ? `<span class="sep">✦</span>visto ${esc(p.dia)}` : ""}</span>
 </div>`;
 
 fetch("data.json?t=" + Date.now()).then(r => r.json()).then(d => {
   if (d.vacio) { document.getElementById("meta").textContent = "Aún no hay datos: espera la primera ejecución del workflow."; return; }
   document.getElementById("meta").innerHTML =
-    `Actualizado ${esc(d.generado.replace("T"," ").slice(0,16))} · ${d.ejecuciones} consultas · ${esc(d.moneda)}, ${d.pasajeros} adulto(s)` +
+    `Actualizado ${esc(d.generado.replace("T"," ").slice(0,16))} · ${d.ejecuciones} consultas · ${esc(d.moneda)} · ${d.pasajeros} adulto(s)` +
     (d.nuevo_minimo ? ` · <span class="hot">🔥 nuevo mínimo histórico</span>` : "");
   if (d.combo_actual) {
-    document.getElementById("combo").textContent = fmt(d.combo_actual.total);
+    document.getElementById("combo").innerHTML = bigPrice(d.combo_actual.total);
     document.getElementById("comboLegs").innerHTML = d.combo_actual.tramos.map(legLine).join("");
   }
   if (d.combo_minimo_historico) {
-    document.getElementById("comboMin").textContent = fmt(d.combo_minimo_historico.total);
+    document.getElementById("comboMin").innerHTML = bigPrice(d.combo_minimo_historico.total);
     document.getElementById("comboMinLegs").innerHTML = d.combo_minimo_historico.tramos.map(legLine).join("");
   }
 
-  // Tabla por franja para cada tramo (4 columnas: cabe en un celular de 320 px)
+  // Un "cartel" por tramo, como los de cada día del festival
   const tw = document.getElementById("tramos");
-  d.tramos.forEach(t => {
+  d.tramos.forEach((t, i) => {
     const rows = d.actual[t];
     const best = Math.min(...rows.filter(r => r.precio != null).map(r => r.precio));
-    tw.insertAdjacentHTML("beforeend", `<div class="card">
-      <h2>${esc(cap(t))} · ${esc(fecha(d.fechas[t]))} <span class="mute">${esc(d.rutas[t])}</span></h2>
+    tw.insertAdjacentHTML("beforeend", `<div class="poster ${COLOR_TRAMO[i % COLOR_TRAMO.length]}">
+      <span class="tag">${esc(fechaLarga(d.fechas[t]))}</span>
+      <h2>${esc(cap(t))} <small>${esc(d.rutas[t])}</small></h2>
       <div class="tw"><table>
         <tr><th>Franja</th><th>Vuelo</th><th class="num">Ahora</th><th class="num">Mín. hist.</th></tr>
         ${rows.map(r => { const m = d.minimos[t][r.franja];
-          const vuelo = r.precio == null ? '<span class="mute">sin vuelos</span>'
+          const vuelo = r.precio == null ? '<span class="empty">sin vuelos</span>'
             : `${esc(r.hora_salida)} ${esc(r.aerolinea)}<span class="sub">${esc(r.origen)}→${esc(r.destino)}<span class="hide-sm"> · vía ${esc(r.vendedor)}</span></span>`;
           return `<tr class="${r.precio === best ? "best" : ""}">
-            <td>${esc(nomFranja(r.franja))}</td><td>${vuelo}</td>
+            <td class="franja">${esc(nomFranja(r.franja))}</td><td>${vuelo}</td>
             <td class="num">${fmt(r.precio)}</td>
-            <td class="num mute">${m ? fmt(m.precio) : "—"}${m ? `<span class="sub">${esc(m.dia.slice(5))}</span>` : ""}</td></tr>`; }).join("")}
+            <td class="num hist">${m ? fmt(m.precio) : "—"}${m ? `<span class="sub">${esc(m.dia.slice(5))}</span>` : ""}</td></tr>`; }).join("")}
       </table></div></div>`);
   });
 
   // Aerolíneas
   const al = document.getElementById("aerolineas");
   al.insertAdjacentHTML("beforeend", d.tramos.map(t => `<div class="section-label">${esc(cap(t))}</div><div class="tw"><table>` +
-    d.por_aerolinea[t].map(r => `<tr><td>${esc(r.aerolinea)}</td><td>${esc(r.hora_salida)} <span class="mute">${esc(r.origen)}→${esc(r.destino)}</span></td><td class="num">${fmt(r.precio)}</td></tr>`).join("") + "</table></div>").join(""));
+    d.por_aerolinea[t].map(r => `<tr><td class="franja">${esc(r.aerolinea)}</td><td>${esc(r.hora_salida)} <span class="pill">${esc(r.origen)}→${esc(r.destino)}</span></td><td class="num">${fmt(r.precio)}</td></tr>`).join("") + "</table></div>").join(""));
 
   // Agencias
   const ag = document.getElementById("agencias");
   ag.insertAdjacentHTML("beforeend", d.agencias.length
     ? `<div class="tw"><table><tr><th>Tramo</th><th>Vendedor</th><th class="hide-sm">Vuelo</th><th class="num">Precio</th></tr>` +
-      d.agencias.map(a => `<tr><td>${esc(cap(a.tramo))}</td><td>${esc(a.vendedor)} ${a.tipo_vendedor === "aerolinea" ? '<span class="pill">directo</span>' : ""}</td><td class="hide-sm">${esc(a.aerolinea)} ${esc(a.hora_salida)}</td><td class="num">${fmt(a.precio)}</td></tr>`).join("") + "</table></div>"
-    : `<p class="mute">Sin datos de agencias. Agrega el secret <code>SERPAPI_KEY</code> en el repo para activarlas.</p>`);
+      d.agencias.map(a => `<tr><td>${esc(cap(a.tramo))}</td><td class="franja">${esc(a.vendedor)} ${a.tipo_vendedor === "aerolinea" ? '<span class="pill">directo</span>' : ""}</td><td class="hide-sm">${esc(a.aerolinea)} ${esc(a.hora_salida)}</td><td class="num">${fmt(a.precio)}</td></tr>`).join("") + "</table></div>"
+    : `<p class="empty">Sin datos de agencias. Agrega el secret <code>SERPAPI_KEY</code> en el repo para activarlas.</p>`);
 
   // Gráficas (al final: si fallan, el resto ya se pintó)
   try {
     const H = d.historico;
     const sm = small();
-    const ink = getComputedStyle(document.documentElement).getPropertyValue("--mute").trim();
-    const grid = getComputedStyle(document.documentElement).getPropertyValue("--line").trim();
-    Chart.defaults.color = ink;
+    Chart.defaults.color = css("--ink");
+    Chart.defaults.font.family = css("--round");
     Chart.defaults.font.size = sm ? 11 : 12;
-    const etiquetas = H.dias.map(x => x.slice(5));  // MM-DD, más corto en móvil
+    Chart.defaults.borderColor = "rgba(255,255,255,.08)";
+    const etiquetas = H.dias.map(x => x.slice(5));
+    const glow = { id: "glow", beforeDatasetsDraw(c) { c.ctx.save(); c.ctx.shadowBlur = 10; c.ctx.shadowColor = "rgba(255,255,255,.25)"; },
+                   afterDatasetsDraw(c) { c.ctx.restore(); } };
     const base = (tooltipLabel) => ({
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: "index", intersect: false },
       plugins: {
-        legend: { position: "bottom", labels: { boxWidth: sm ? 10 : 14, boxHeight: sm ? 10 : 12, padding: sm ? 8 : 12 } },
-        tooltip: { callbacks: { label: tooltipLabel } },
+        legend: { position: "bottom", labels: { usePointStyle: true, pointStyle: "star", boxWidth: sm ? 8 : 10, padding: sm ? 10 : 14 } },
+        tooltip: { backgroundColor: "#262626", borderColor: "rgba(255,255,255,.18)", borderWidth: 1, padding: 10, callbacks: { label: tooltipLabel } },
       },
       scales: {
-        x: { grid: { color: grid }, ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: sm ? 5 : 10 } },
-        y: { grid: { color: grid }, ticks: { callback: v => small() ? fmtShort(v) : fmt(v), maxTicksLimit: 6 } },
+        x: { ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: sm ? 5 : 10 } },
+        y: { ticks: { callback: v => small() ? fmtShort(v) : fmt(v), maxTicksLimit: 6 } },
       },
     });
     const charts = [];
-    charts.push(new Chart(document.getElementById("chartCombo"), { type: "line",
-      data: { labels: etiquetas, datasets: [{ label: "Ida + vuelta", data: H.combo, borderColor: COLORS[1], backgroundColor: COLORS[1], tension: .25, spanGaps: true, pointRadius: sm ? 2 : 3 }] },
+    charts.push(new Chart(document.getElementById("chartCombo"), { type: "line", plugins: [glow],
+      data: { labels: etiquetas, datasets: [{ label: "Ida + vuelta", data: H.combo, borderColor: css("--mint"), backgroundColor: css("--mint"),
+              borderWidth: 2.5, tension: .3, spanGaps: true, pointRadius: sm ? 2 : 3 }] },
       options: base(c => fmt(c.parsed.y)) }));
     const cw = document.getElementById("charts");
     d.tramos.forEach((t, i) => {
-      cw.insertAdjacentHTML("beforeend", `<div class="card"><h2>${esc(cap(t))} por franja <span class="mute">mínimo diario</span></h2><div class="chart"><canvas id="ch_${i}"></canvas></div></div>`);
-      charts.push(new Chart(document.getElementById("ch_" + i), { type: "line",
-        data: { labels: etiquetas, datasets: d.franjas.map((f, j) => ({ label: nomFranja(f), data: H.series[t][f], borderColor: COLORS[j % COLORS.length], backgroundColor: COLORS[j % COLORS.length], tension: .25, spanGaps: true, pointRadius: sm ? 1.5 : 2 })) },
+      const color = COLOR_TRAMO[i % COLOR_TRAMO.length];
+      cw.insertAdjacentHTML("beforeend", `<div class="poster ${color}"><span class="tag">${esc(cap(t))} por franja</span><h2>${esc(cap(t))} <small>mínimo diario por franja</small></h2><div class="chart"><canvas id="ch_${i}"></canvas></div></div>`);
+      charts.push(new Chart(document.getElementById("ch_" + i), { type: "line", plugins: [glow],
+        data: { labels: etiquetas, datasets: d.franjas.map((f, j) => ({ label: nomFranja(f), data: H.series[t][f], borderColor: COLORS[j % COLORS.length],
+                backgroundColor: COLORS[j % COLORS.length], borderWidth: 2, tension: .3, spanGaps: true, pointRadius: sm ? 1.5 : 2 })) },
         options: base(c => `${c.dataset.label}: ${fmt(c.parsed.y)}`) }));
     });
-    // Al rotar el celular o cambiar el tamaño de ventana, ajusta fuentes y ejes
     window.matchMedia("(max-width:480px)").addEventListener("change", () => {
       const m = small();
       Chart.defaults.font.size = m ? 11 : 12;
-      charts.forEach(ch => {
-        ch.options.scales.x.ticks.maxTicksLimit = m ? 5 : 10;
-        ch.options.plugins.legend.labels.boxWidth = m ? 10 : 14;
-        ch.update("none");
-      });
+      charts.forEach(ch => { ch.options.scales.x.ticks.maxTicksLimit = m ? 5 : 10; ch.update("none"); });
     });
   } catch (e) { console.error(e); }
 }).catch(e => { document.getElementById("meta").textContent = "No se pudo cargar data.json: " + e; });
