@@ -105,3 +105,23 @@ def test_reporte_y_nuevo_minimo(cfg, tmp_path, monkeypatch):
 def test_reporte_vacio(cfg):
     d = report.construir([], cfg)
     assert d["vacio"] and "Aún no hay datos" in report.markdown(d)
+
+
+def test_hora_en_punto_y_dedup(cfg):
+    """Google manda (7, None) para las 7:00; y la misma tarifa puede llegar dos veces."""
+    tramo = cfg.tramos[0]
+    it = _gf_item(200000, 7, 0)
+    it.flights[0].departure.time = (7, None)
+    it.flights[0].arrival.time = (8, None)
+    obs = google_flights.a_observaciones([it, it], tramo, cfg, "R1", "2026-11-10T11:41:00Z")
+    assert len(obs) == 1 and obs[0].hora_salida == "07:00" and obs[0].franja == "manana"
+
+
+def test_parse_html_tolera_texto_extra(monkeypatch):
+    import fast_flights.parser as P
+    capturado = {}
+    monkeypatch.setattr(P, "parse_payload", lambda payload: capturado.setdefault("p", payload))
+    html = ("<html><script class=\"ds:1\">AF_initDataCallback({key: 'ds:1', hash: '2', "
+            "data:[[1,2],[3,\"a,b\"]], sideChannel: {}, extra: [9,9]});</script></html>")
+    google_flights._parse_html(html)
+    assert capturado["p"] == [[1, 2], [3, "a,b"]]

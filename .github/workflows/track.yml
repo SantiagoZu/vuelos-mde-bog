@@ -58,6 +58,15 @@ jobs:
         run: |
           python -m tracker.main run ${{ inputs.force_serpapi && '--force-serpapi' || '' }}
 
+      - name: Subir HTML de diagnóstico (si algo no se pudo leer)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-html
+          path: debug/
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Guardar histórico y reporte en el repo
         if: always()
         run: |
