@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vuelos MDE ⇄ BOG · tracker de precios</title>
+<script src="vendor/chart.umd.min.js"></script>
+<style>
+  :root { --bg:#f6f5f2; --card:#fff; --ink:#1d1d1f; --mute:#6b6b70; --line:#e4e2dc; --acc:#0b6e4f; --hot:#c2410c; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141416; --card:#1d1d20; --ink:#ececee; --mute:#9a9aa2; --line:#2c2c31; --acc:#3fbf8f; --hot:#fb923c; } }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  main { max-width:1100px; margin:0 auto; padding:28px 18px 60px; }
+  h1 { font-size:24px; margin:0 0 4px; } h2 { font-size:17px; margin:0 0 12px; }
+  .mute { color:var(--mute); font-size:13px; }
+  .grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); margin-top:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; }
+  .big { font-size:34px; font-weight:700; letter-spacing:-.5px; font-variant-numeric:tabular-nums; }
+  .hot { color:var(--hot); font-weight:600; }
+  table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+  th, td { text-align:left; padding:7px 6px; border-bottom:1px solid var(--line); font-size:14px; }
+  th { color:var(--mute); font-weight:500; font-size:12px; text-transform:uppercase; letter-spacing:.03em; }
+  td.num { text-align:right; font-weight:600; }
+  tr.best td { background:color-mix(in srgb, var(--acc) 10%, transparent); }
+  .pill { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; border:1px solid var(--line); color:var(--mute); }
+  .leg { margin:6px 0; }
+  canvas { max-height:320px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>✈️ Vuelos Medellín ⇄ Bogotá</h1>
+  <div class="mute" id="meta">Cargando…</div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Viaje completo más barato ahora</h2>
+      <div class="big" id="combo">—</div>
+      <div id="comboLegs"></div>
+    </div>
+    <div class="card">
+      <h2>Mínimo histórico del viaje completo</h2>
+      <div class="big" id="comboMin">—</div>
+      <div id="comboMinLegs"></div>
+    </div>
+  </div>
+
+  <div class="grid" id="tramos"></div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>Evolución del precio (mínimo diario)</h2>
+    <canvas id="chartCombo"></canvas>
+  </div>
+  <div class="grid" id="charts"></div>
+
+  <div class="grid">
+    <div class="card" id="aerolineas"><h2>Más barato por aerolínea (última consulta)</h2></div>
+    <div class="card" id="agencias"><h2>Agencias / OTAs (último chequeo diario)</h2></div>
+  </div>
+</main>
+<script>
+const fmt = n => n == null ? "—" : "$" + Math.round(n).toLocaleString("es-CO");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const COLORS = ["#2563eb","#0b6e4f","#c2410c","#7c3aed","#be185d","#0891b2"];
+const legLine = p => `<div class="leg">${esc(p.fecha_vuelo)} · <b>${esc(p.hora_salida)}</b> ${esc(p.origen)}→${esc(p.destino)} · ${esc(p.aerolinea)} <span class="mute">${esc(p.vuelo)}</span> · <b>${fmt(p.precio)}</b> <span class="pill">${esc(p.vendedor)}</span>${p.dia ? ` <span class="mute">(visto ${esc(p.dia)})</span>` : ""}</div>`;
+
+fetch("data.json?t=" + Date.now()).then(r => r.json()).then(d => {
+  if (d.vacio) { document.getElementById("meta").textContent = "Aún no hay datos: espera la primera ejecución del workflow."; return; }
+  document.getElementById("meta").innerHTML =
+    `Actualizado ${esc(d.generado.replace("T"," ").slice(0,16))} (hora Colombia) · ${d.ejecuciones} consultas · precios en ${esc(d.moneda)} para ${d.pasajeros} adulto(s)` +
+    (d.nuevo_minimo ? ` · <span class="hot">🔥 nuevo mínimo histórico</span>` : "");
+  if (d.combo_actual) {
+    document.getElementById("combo").textContent = fmt(d.combo_actual.total);
+    document.getElementById("comboLegs").innerHTML = d.combo_actual.tramos.map(legLine).join("");
+  }
+  if (d.combo_minimo_historico) {
+    document.getElementById("comboMin").textContent = fmt(d.combo_minimo_historico.total);
+    document.getElementById("comboMinLegs").innerHTML = d.combo_minimo_historico.tramos.map(legLine).join("");
+  }
+
+  // Tabla por franja para cada tramo
+  const tw = document.getElementById("tramos");
+  d.tramos.forEach(t => {
+    const rows = d.actual[t];
+    const best = Math.min(...rows.filter(r => r.precio != null).map(r => r.precio));
+    tw.insertAdjacentHTML("beforeend", `<div class="card"><h2>${esc(t[0].toUpperCase()+t.slice(1))} · ${esc(d.fechas[t])} <span class="mute">${esc(d.rutas[t])}</span></h2>
+      <table><tr><th>Franja</th><th>Salida</th><th>Aerolínea</th><th style="text-align:right">Ahora</th><th style="text-align:right">Mín. hist.</th></tr>
+      ${rows.map(r => { const m = d.minimos[t][r.franja];
+        return `<tr class="${r.precio === best ? "best" : ""}"><td>${esc(r.franja)}</td>
+        <td>${r.precio == null ? "" : esc(r.hora_salida) + ` <span class="mute">${esc(r.origen)}</span>`}</td>
+        <td>${r.precio == null ? '<span class="mute">sin vuelos</span>' : esc(r.aerolinea) + ` <span class="pill">${esc(r.vendedor)}</span>`}</td>
+        <td class="num">${fmt(r.precio)}</td><td class="num mute" title="${m ? esc(m.dia) : ""}">${m ? fmt(m.precio) : "—"}</td></tr>`; }).join("")}
+      </table></div>`);
+  });
+
+  // Aerolíneas
+  const al = document.getElementById("aerolineas");
+  al.insertAdjacentHTML("beforeend", d.tramos.map(t => `<h2 class="mute" style="font-size:13px;margin:10px 0 4px">${esc(t)}</h2><table>` +
+    d.por_aerolinea[t].map(r => `<tr><td>${esc(r.aerolinea)}</td><td>${esc(r.hora_salida)} <span class="mute">${esc(r.origen)}→${esc(r.destino)}</span></td><td class="num">${fmt(r.precio)}</td></tr>`).join("") + "</table>").join(""));
+
+  // Agencias
+  const ag = document.getElementById("agencias");
+  ag.insertAdjacentHTML("beforeend", d.agencias.length
+    ? `<table><tr><th>Tramo</th><th>Vendedor</th><th>Vuelo</th><th style="text-align:right">Precio</th></tr>` +
+      d.agencias.map(a => `<tr><td>${esc(a.tramo)}</td><td>${esc(a.vendedor)} ${a.tipo_vendedor === "aerolinea" ? '<span class="pill">directo</span>' : ""}</td><td>${esc(a.aerolinea)} ${esc(a.hora_salida)}</td><td class="num">${fmt(a.precio)}</td></tr>`).join("") + "</table>"
+    : `<p class="mute">Sin datos de agencias. Agrega el secret <code>SERPAPI_KEY</code> en el repo para activarlas.</p>`);
+  // Gráficas (al final: si fallan, el resto ya se pintó)
+  try {
+  const H = d.historico;
+  new Chart(document.getElementById("chartCombo"), { type: "line",
+    data: { labels: H.dias, datasets: [{ label: "Ida + vuelta (mínimo del día)", data: H.combo, borderColor: COLORS[1], backgroundColor: COLORS[1], tension: .25, spanGaps: true }] },
+    options: { plugins: { tooltip: { callbacks: { label: c => fmt(c.parsed.y) } } }, scales: { y: { ticks: { callback: v => fmt(v) } } } } });
+  const cw = document.getElementById("charts");
+  d.tramos.forEach((t, i) => {
+    cw.insertAdjacentHTML("beforeend", `<div class="card"><h2>${esc(t)} por franja</h2><canvas id="ch_${i}"></canvas></div>`);
+    new Chart(document.getElementById("ch_" + i), { type: "line",
+      data: { labels: H.dias, datasets: d.franjas.map((f, j) => ({ label: f, data: H.series[t][f], borderColor: COLORS[j % COLORS.length], backgroundColor: COLORS[j % COLORS.length], tension: .25, spanGaps: true, pointRadius: 2 })) },
+      options: { plugins: { tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmt(c.parsed.y)}` } } }, scales: { y: { ticks: { callback: v => fmt(v) } } } } });
+  });
+
+  } catch (e) { console.error(e); }
+}).catch(e => { document.getElementById("meta").textContent = "No se pudo cargar data.json: " + e; });
+</script>
+</body>
+</html>

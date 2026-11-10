@@ -1,0 +1,5 @@
+faster-flights==3.8.0   # módulo fast_flights: scraper de Google Flights (sin API key)
+requests>=2.31
+PyYAML>=6.0
+tzdata>=2024.1
+pytest>=8.0

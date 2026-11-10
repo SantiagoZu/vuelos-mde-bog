@@ -1,0 +1,54 @@
+# ============================================================
+#  Configuración del tracker de vuelos Medellín ⇄ Bogotá
+#  Cambia lo que necesites aquí; el código no tiene nada "quemado".
+# ============================================================
+
+viaje:
+  # Pasajeros adultos. Google Flights devuelve el precio TOTAL para todos,
+  # así que con 1 adulto ves el precio por persona.
+  adultos: 1
+  moneda: COP
+  idioma: es-419
+  solo_directos: true          # MDE-BOG es ruta directa; evita itinerarios raros con escala
+
+  tramos:
+    - nombre: ida
+      fecha: "2027-03-20"
+      origenes: [MDE, EOH]     # MDE = José María Córdova (Rionegro), EOH = Olaya Herrera
+      destinos: [BOG]
+    - nombre: vuelta
+      fecha: "2027-03-23"
+      origenes: [BOG]
+      destinos: [MDE, EOH]
+
+# Franjas horarias según la hora de salida (hora local). [inicio, fin) en horas 0-24.
+franjas:
+  - { nombre: madrugada, desde: 0,  hasta: 6 }
+  - { nombre: manana,    desde: 6,  hasta: 10 }
+  - { nombre: mediodia,  desde: 10, hasta: 14 }
+  - { nombre: tarde,     desde: 14, hasta: 18 }
+  - { nombre: noche,     desde: 18, hasta: 24 }
+
+fuentes:
+  # Google Flights (gratis, sin API key). Trae precios publicados por las
+  # aerolíneas: Avianca, LATAM, JetSMART, Wingo, Clic (si Google la indexa)...
+  google_flights:
+    habilitada: true
+
+  # SerpApi (opcional). Añade los precios de agencias/OTAs (Despegar, Expedia,
+  # Kiwi, etc.) vía "booking options". Requiere el secret SERPAPI_KEY.
+  # Plan gratis: 250 búsquedas/mes -> por eso corre máximo 1 vez al día.
+  serpapi:
+    habilitada: true
+    max_ejecuciones_por_dia: 1
+    # Cuántos vuelos (los más baratos de cada tramo) se consultan en detalle
+    # para ver qué vendedores los ofrecen. Cada uno = 1 búsqueda.
+    booking_options_top_n: 2
+
+alertas:
+  # Telegram opcional: secrets TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID.
+  # Avisa cuando el viaje completo (ida + vuelta) marca un nuevo mínimo histórico.
+  telegram: true
+
+# Después de esta fecha el pipeline deja de consultar (ya no tiene sentido).
+dejar_de_rastrear_despues_de: "2027-03-20"
