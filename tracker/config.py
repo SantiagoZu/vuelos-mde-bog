@@ -36,7 +36,7 @@ class Config:
     serpapi: bool
     serpapi_max_por_dia: int
     serpapi_top_n: int
-    alerta_telegram: bool
+    alertas: dict
     hasta: date
     raw: dict = field(default_factory=dict, repr=False)
 
@@ -68,7 +68,7 @@ def load_config(path: str | Path = ROOT / "config.yaml") -> Config:
         serpapi=bool(sa.get("habilitada", False)),
         serpapi_max_por_dia=int(sa.get("max_ejecuciones_por_dia", 1)),
         serpapi_top_n=int(sa.get("booking_options_top_n", 2)),
-        alerta_telegram=bool(raw.get("alertas", {}).get("telegram", False)),
+        alertas=raw.get("alertas") or {},
         hasta=date.fromisoformat(str(raw.get("dejar_de_rastrear_despues_de", "2100-01-01"))),
         raw=raw,
     )

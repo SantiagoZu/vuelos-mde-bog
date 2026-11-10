@@ -125,3 +125,100 @@ def test_parse_html_tolera_texto_extra(monkeypatch):
             "data:[[1,2],[3,\"a,b\"]], sideChannel: {}, extra: [9,9]});</script></html>")
     google_flights._parse_html(html)
     assert capturado["p"] == [[1, 2], [3, "a,b"]]
+
+
+# ----------------------------------------------------------------- alertas
+from datetime import datetime, timedelta, timezone
+
+from tracker import alerts
+
+
+def _historia(cfg, totales):
+    """Una ejecución cada 12 h; cada una con ida y vuelta que suman `total`."""
+    filas, t0 = [], datetime(2026, 11, 10, 11, 41, tzinfo=timezone.utc)
+    for i, total in enumerate(totales):
+        t = t0 + timedelta(hours=12 * i)
+        run, ts = t.strftime("%Y%m%dT%H%MZ"), t.strftime("%Y-%m-%dT%H:%M:00Z")
+        filas.append(_obs(run, ts, "ida", "06:30", total // 2, cfg=cfg).as_row())
+        filas.append(_obs(run, ts, "vuelta", "19:00", total - total // 2, cfg=cfg).as_row())
+    return filas
+
+
+def _reglas(cfg, **kw):
+    base = {"nuevo_minimo_historico": False, "caida_pct_vs_anterior": None, "caida_pct_vs_promedio_7d": None,
+            "precio_objetivo": None, "caida_pct_franja": None}
+    cfg.alertas = {"reglas": base | kw, "canales": {"github_issue": True, "telegram": True}, "enfriamiento_horas": 24}
+    return cfg
+
+
+def _evaluar(cfg, totales):
+    filas = _historia(cfg, totales)
+    return alerts.evaluar(filas, report.construir(filas, cfg), cfg)
+
+
+def test_alerta_caida_vs_anterior(cfg):
+    _reglas(cfg, caida_pct_vs_anterior=10)
+    assert _evaluar(cfg, [320000, 300000]) == []                      # -6 %
+    [a] = _evaluar(cfg, [320000, 280000])                               # -12.5 %
+    assert a.regla == "caida_pct_vs_anterior" and "$280.000" in a.texto
+
+
+def test_alerta_promedio_7d_requiere_historia(cfg):
+    _reglas(cfg, caida_pct_vs_promedio_7d=12)
+    assert _evaluar(cfg, [320000, 320000, 270000]) == []               # pocas ejecuciones
+    [a] = _evaluar(cfg, [320000, 310000, 330000, 320000, 270000])      # -16 % vs 320k
+    assert a.regla == "caida_pct_vs_promedio_7d"
+
+
+def test_alerta_objetivo_minimo_y_franja(cfg):
+    _reglas(cfg, nuevo_minimo_historico=True, precio_objetivo=300000, caida_pct_franja=20)
+    reglas = {a.regla for a in _evaluar(cfg, [400000, 290000])}
+    assert reglas == {"nuevo_minimo_historico", "precio_objetivo",
+                      "caida_pct_franja:ida:manana", "caida_pct_franja:vuelta:noche"}
+
+
+def test_anti_spam():
+    ahora = datetime(2026, 11, 20, tzinfo=timezone.utc)
+    a = alerts.Alerta("caida_pct_vs_anterior", 280000, "x")
+    o = alerts.Alerta("precio_objetivo", 290000, "y")
+    estado = {"caida_pct_vs_anterior": {"precio": 280000, "cuando": (ahora - timedelta(hours=3)).isoformat()},
+              "precio_objetivo": {"precio": 290000, "cuando": (ahora - timedelta(days=5)).isoformat()}}
+    assert alerts.filtrar_nuevas([a, o], estado, ahora, 24) == []        # mismo precio, en enfriamiento
+    assert alerts.filtrar_nuevas([a], estado, ahora + timedelta(hours=22), 24) == [a]   # pasó el enfriamiento
+    mas_bajo = alerts.Alerta("precio_objetivo", 285000, "z")
+    assert alerts.filtrar_nuevas([mas_bajo], estado, ahora, 24) == [mas_bajo]
+
+
+def test_procesar_envia_issue_y_telegram(cfg, tmp_path, monkeypatch):
+    _reglas(cfg, caida_pct_vs_anterior=10)
+    monkeypatch.setattr(alerts, "ESTADO_PATH", tmp_path / "estado.json")
+    for k, v in {"GITHUB_TOKEN": "t", "GITHUB_REPOSITORY": "u/r", "GITHUB_REPOSITORY_OWNER": "u",
+                 "TELEGRAM_BOT_TOKEN": "b", "TELEGRAM_CHAT_ID": "1", "DASHBOARD_URL": "https://u.github.io/r/"}.items():
+        monkeypatch.setenv(k, v)
+    llamadas = []
+
+    class R:
+        def __init__(self, data=None): self.status_code, self._d = 200, data
+        def raise_for_status(self): pass
+        def json(self): return self._d
+
+    def fake(method):
+        def f(url, **kw):
+            llamadas.append((method, url, kw.get("json")))
+            return R([{"number": 3}] if method == "GET" else {"html_url": "https://github.com/u/r/issues/4"})
+        return f
+    monkeypatch.setattr(alerts.requests, "get", fake("GET"))
+    monkeypatch.setattr(alerts.requests, "post", fake("POST"))
+    monkeypatch.setattr(alerts.requests, "patch", fake("PATCH"))
+
+    filas = _historia(cfg, [320000, 280000])
+    d = report.construir(filas, cfg)
+    assert len(alerts.procesar(filas, d, cfg)) == 1
+    metodos = [(m, u.rsplit("/", 2)[-2:]) for m, u, _ in llamadas]
+    assert ("POST", ["r", "issues"]) in metodos and ("PATCH", ["issues", "3"]) in metodos
+    issue = next(j for m, u, j in llamadas if m == "POST" and u.endswith("/issues"))
+    assert "cc @u" in issue["body"] and "$280.000" in issue["title"]
+    assert any("telegram" in u for _, u, _ in llamadas)
+    # segunda vez con el mismo precio: no reenvía
+    llamadas.clear()
+    assert alerts.procesar(filas, d, cfg) == [] and llamadas == []

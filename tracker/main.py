@@ -11,7 +11,7 @@ import os
 import sys
 from datetime import datetime, timezone
 
-from . import notify, report, storage
+from . import alerts, report, storage
 from .config import load_config
 from .sources import google_flights, serpapi
 
@@ -62,13 +62,16 @@ def run(force_serpapi: bool = False) -> int:
             log.warning("%s", e)
     _summary("\n".join(resumen) + "\n")
 
-    d = report.construir(storage.leer(), cfg)
+    filas = storage.leer()
+    d = report.construir(filas, cfg)
     md = report.escribir(d)
     _summary(md)
     print(md)
 
-    if cfg.alerta_telegram and nuevas:
-        notify.telegram(d, os.environ.get("DASHBOARD_URL"))
+    if nuevas:
+        enviadas = alerts.procesar(filas, d, cfg)
+        if enviadas:
+            _summary("### 🔔 Alertas enviadas\n\n" + "\n".join(f"- {a.texto}" for a in enviadas) + "\n")
 
     if not nuevas:
         log.error("Ninguna fuente devolvió precios en esta ejecución.")

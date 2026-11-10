@@ -31,8 +31,27 @@ GitHub Actions se rompería a diario. Google Flights ya muestra las tarifas que 
    con el nombre `SERPAPI_KEY`.
 3. **Alertas por Telegram (opcional):** crea un bot con [@BotFather](https://t.me/BotFather), escríbele
    un mensaje y obtén tu chat id (p. ej. con `https://api.telegram.org/bot<TOKEN>/getUpdates`). Guarda
-   los secrets `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID`. Te avisa cuando ida + vuelta marca **nuevo mínimo histórico**.
+   los secrets `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID`.
 4. Primera ejecución: pestaña **Actions → Rastrear vuelos MDE-BOG → Run workflow**.
+
+## Alertas de bajada de precio
+
+Se evalúan en cada ejecución y se configuran en `config.yaml > alertas`:
+
+| Regla | Por defecto | Avisa cuando… |
+|---|---|---|
+| `nuevo_minimo_historico` | activa | ida + vuelta marca el precio más bajo visto hasta ahora |
+| `caida_pct_vs_anterior` | 10 % | ida + vuelta baja ese % frente a la consulta anterior |
+| `caida_pct_vs_promedio_7d` | 12 % | ida + vuelta queda ese % por debajo del promedio de 7 días (desde 4 consultas) |
+| `precio_objetivo` | apagada | ida + vuelta queda en o por debajo del precio que pongas (p. ej. `250000`) |
+| `caida_pct_franja` | 20 % | una franja concreta (p. ej. ida en la mañana) baja ese % vs la consulta anterior |
+
+**Canales:** se abre un *issue* en el repo con la etiqueta `alerta-precio` que te menciona, y GitHub te
+avisa por correo y en la app móvil, sin configurar nada. Además se envía por Telegram si existen los secrets.
+El aviso anterior se cierra solo, para que no se acumulen.
+
+**Anti-spam:** una misma regla no repite aviso durante `enfriamiento_horas` (24 h), salvo que el precio quede
+aún más bajo que en el último aviso. El estado queda en `data/alertas_estado.json`.
 
 ## Cambiar parámetros
 

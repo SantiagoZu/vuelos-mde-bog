@@ -124,6 +124,7 @@ def construir(filas: list[dict], cfg: Config) -> dict:
         "combo_actual": {"total": combo_actual[0], "tramos": [_ficha(p) for p in combo_actual[1]]} if combo_actual else None,
         "combo_minimo_historico": {"total": mejor_combo_hist[0], "tramos": [_ficha(p) | {"dia": p["dia"]} for p in mejor_combo_hist[1]]} if mejor_combo_hist else None,
         "nuevo_minimo": nuevo_minimo,
+        "combos": [{"run": run, "total": c[0]} for run, c in sorted(combos.items())],
         "historico": {"dias": dias, "series": serie, "combo": serie_combo},
         "minimos": minimos,
     }

@@ -46,9 +46,26 @@ fuentes:
     booking_options_top_n: 2
 
 alertas:
-  # Telegram opcional: secrets TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID.
-  # Avisa cuando el viaje completo (ida + vuelta) marca un nuevo mínimo histórico.
-  telegram: true
+  canales:
+    # Abre un issue en el repo y te menciona: GitHub te manda correo y notificación
+    # en la app móvil. No requiere configurar nada.
+    github_issue: true
+    # Opcional: secrets TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID.
+    telegram: true
+
+  # Cuándo se considera una bajada "significativa". Pon null para desactivar una regla.
+  # Todas se evalúan sobre el viaje completo (ida más barata + vuelta más barata),
+  # salvo caida_pct_franja, que mira cada franja horaria por separado.
+  reglas:
+    nuevo_minimo_historico: true     # el viaje completo marca el precio más bajo visto hasta ahora
+    caida_pct_vs_anterior: 10        # baja ≥ 10 % frente a la consulta anterior
+    caida_pct_vs_promedio_7d: 12     # queda ≥ 12 % por debajo del promedio de los últimos 7 días
+    precio_objetivo: null            # p. ej. 250000 -> avisa si ida+vuelta queda en o por debajo
+    caida_pct_franja: 20             # una franja (ida o vuelta) baja ≥ 20 % vs la consulta anterior
+
+  # Anti-spam: una misma regla no vuelve a avisar en este tiempo,
+  # salvo que el precio quede todavía más bajo que en el último aviso.
+  enfriamiento_horas: 24
 
 # Después de esta fecha el pipeline deja de consultar (ya no tiene sentido).
 dejar_de_rastrear_despues_de: "2027-03-20"
