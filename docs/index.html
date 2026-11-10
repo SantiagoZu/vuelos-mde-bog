@@ -2,29 +2,55 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f5f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141416" media="(prefers-color-scheme: dark)">
 <title>Vuelos MDE ⇄ BOG · tracker de precios</title>
 <script src="vendor/chart.umd.min.js"></script>
 <style>
-  :root { --bg:#f6f5f2; --card:#fff; --ink:#1d1d1f; --mute:#6b6b70; --line:#e4e2dc; --acc:#0b6e4f; --hot:#c2410c; }
+  :root { --bg:#f6f5f2; --card:#fff; --ink:#1d1d1f; --mute:#6b6b70; --line:#e4e2dc; --acc:#0b6e4f; --hot:#c2410c;
+          --pad:clamp(14px, 3.5vw, 20px); --gap:clamp(12px, 2.5vw, 16px); }
   @media (prefers-color-scheme: dark) { :root { --bg:#141416; --card:#1d1d20; --ink:#ececee; --mute:#9a9aa2; --line:#2c2c31; --acc:#3fbf8f; --hot:#fb923c; } }
   * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
   body { margin:0; font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); }
-  main { max-width:1100px; margin:0 auto; padding:28px 18px 60px; }
-  h1 { font-size:24px; margin:0 0 4px; } h2 { font-size:17px; margin:0 0 12px; }
+  main { max-width:1100px; margin:0 auto;
+         padding: clamp(18px, 4vw, 28px) max(var(--pad), env(safe-area-inset-right)) 48px max(var(--pad), env(safe-area-inset-left)); }
+  h1 { font-size:clamp(20px, 5.5vw, 26px); line-height:1.2; margin:0 0 6px; }
+  h2 { font-size:clamp(15px, 4vw, 17px); margin:0 0 12px; line-height:1.3; }
+  h2 .mute { font-weight:500; white-space:nowrap; }
   .mute { color:var(--mute); font-size:13px; }
-  .grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); margin-top:16px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; }
-  .big { font-size:34px; font-weight:700; letter-spacing:-.5px; font-variant-numeric:tabular-nums; }
+  .grid { display:grid; gap:var(--gap); grid-template-columns:repeat(auto-fit, minmax(min(100%, 340px), 1fr)); margin-top:var(--gap); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:var(--pad); min-width:0; }
+  .big { font-size:clamp(28px, 8vw, 36px); font-weight:700; letter-spacing:-.5px; font-variant-numeric:tabular-nums; line-height:1.1; margin-bottom:8px; }
   .hot { color:var(--hot); font-weight:600; }
+
+  /* Tablas: nunca rompen el ancho; si no caben, scroll horizontal dentro de la tarjeta */
+  .tw { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 calc(var(--pad) * -1); padding:0 var(--pad); }
   table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
-  th, td { text-align:left; padding:7px 6px; border-bottom:1px solid var(--line); font-size:14px; }
-  th { color:var(--mute); font-weight:500; font-size:12px; text-transform:uppercase; letter-spacing:.03em; }
-  td.num { text-align:right; font-weight:600; }
-  tr.best td { background:color-mix(in srgb, var(--acc) 10%, transparent); }
-  .pill { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; border:1px solid var(--line); color:var(--mute); }
-  .leg { margin:6px 0; }
-  canvas { max-height:320px; }
+  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); font-size:14px; vertical-align:top; }
+  th { color:var(--mute); font-weight:500; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap; }
+  td.num, th.num { text-align:right; white-space:nowrap; }
+  td.num { font-weight:600; }
+  td.num.mute { font-weight:500; }
+  tr.best td { background:color-mix(in srgb, var(--acc) 11%, transparent); }
+  tr:last-child td { border-bottom:0; }
+  .sub { display:block; color:var(--mute); font-size:12.5px; margin-top:1px; }
+  .pill { display:inline-block; font-size:11px; padding:0 7px; border-radius:99px; border:1px solid var(--line); color:var(--mute); white-space:nowrap; vertical-align:1px; }
+
+  .leg { display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px; padding:8px 0; border-top:1px solid var(--line); }
+  .leg .when { font-weight:600; min-width:7.2em; }
+  .leg .price { margin-left:auto; font-weight:700; font-variant-numeric:tabular-nums; }
+  .leg .detail { flex-basis:100%; }
+
+  .chart { position:relative; height:clamp(220px, 45vw, 320px); }
+  .section-label { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--mute); margin:14px 0 2px; }
+  .section-label:first-of-type { margin-top:0; }
+
+  @media (max-width:480px) {
+    th, td { padding:7px 4px; font-size:13.5px; }
+    .hide-sm { display:none; }
+  }
 </style>
 </head>
 <body>
@@ -47,27 +73,41 @@
 
   <div class="grid" id="tramos"></div>
 
-  <div class="card" style="margin-top:16px">
-    <h2>Evolución del precio (mínimo diario)</h2>
-    <canvas id="chartCombo"></canvas>
+  <div class="grid">
+    <div class="card">
+      <h2>Evolución del viaje completo <span class="mute">mínimo diario</span></h2>
+      <div class="chart"><canvas id="chartCombo"></canvas></div>
+    </div>
   </div>
   <div class="grid" id="charts"></div>
 
   <div class="grid">
-    <div class="card" id="aerolineas"><h2>Más barato por aerolínea (última consulta)</h2></div>
-    <div class="card" id="agencias"><h2>Agencias / OTAs (último chequeo diario)</h2></div>
+    <div class="card" id="aerolineas"><h2>Más barato por aerolínea <span class="mute">última consulta</span></h2></div>
+    <div class="card" id="agencias"><h2>Agencias / OTAs <span class="mute">último chequeo diario</span></h2></div>
   </div>
 </main>
 <script>
 const fmt = n => n == null ? "—" : "$" + Math.round(n).toLocaleString("es-CO");
+const fmtShort = n => n == null ? "" : "$" + Math.round(n / 1000).toLocaleString("es-CO") + "k";
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const FRANJA = { madrugada:"Madrugada", manana:"Mañana", mediodia:"Mediodía", tarde:"Tarde", noche:"Noche" };
+const nomFranja = f => FRANJA[f] || f;
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+const fecha = iso => new Date(iso + "T12:00:00").toLocaleDateString("es-CO", { weekday:"short", day:"numeric", month:"short" });
 const COLORS = ["#2563eb","#0b6e4f","#c2410c","#7c3aed","#be185d","#0891b2"];
-const legLine = p => `<div class="leg">${esc(p.fecha_vuelo)} · <b>${esc(p.hora_salida)}</b> ${esc(p.origen)}→${esc(p.destino)} · ${esc(p.aerolinea)} <span class="mute">${esc(p.vuelo)}</span> · <b>${fmt(p.precio)}</b> <span class="pill">${esc(p.vendedor)}</span>${p.dia ? ` <span class="mute">(visto ${esc(p.dia)})</span>` : ""}</div>`;
+const small = () => window.matchMedia("(max-width:480px)").matches;
+
+const legLine = p => `<div class="leg">
+  <span class="when">${esc(fecha(p.fecha_vuelo))} · ${esc(p.hora_salida)}</span>
+  <span>${esc(p.origen)}→${esc(p.destino)}</span>
+  <span class="price">${fmt(p.precio)}</span>
+  <span class="detail mute">${esc(p.aerolinea)} ${esc(p.vuelo)} · vía ${esc(p.vendedor)}${p.dia ? ` · visto ${esc(p.dia)}` : ""}</span>
+</div>`;
 
 fetch("data.json?t=" + Date.now()).then(r => r.json()).then(d => {
   if (d.vacio) { document.getElementById("meta").textContent = "Aún no hay datos: espera la primera ejecución del workflow."; return; }
   document.getElementById("meta").innerHTML =
-    `Actualizado ${esc(d.generado.replace("T"," ").slice(0,16))} (hora Colombia) · ${d.ejecuciones} consultas · precios en ${esc(d.moneda)} para ${d.pasajeros} adulto(s)` +
+    `Actualizado ${esc(d.generado.replace("T"," ").slice(0,16))} · ${d.ejecuciones} consultas · ${esc(d.moneda)}, ${d.pasajeros} adulto(s)` +
     (d.nuevo_minimo ? ` · <span class="hot">🔥 nuevo mínimo histórico</span>` : "");
   if (d.combo_actual) {
     document.getElementById("combo").textContent = fmt(d.combo_actual.total);
@@ -78,46 +118,79 @@ fetch("data.json?t=" + Date.now()).then(r => r.json()).then(d => {
     document.getElementById("comboMinLegs").innerHTML = d.combo_minimo_historico.tramos.map(legLine).join("");
   }
 
-  // Tabla por franja para cada tramo
+  // Tabla por franja para cada tramo (4 columnas: cabe en un celular de 320 px)
   const tw = document.getElementById("tramos");
   d.tramos.forEach(t => {
     const rows = d.actual[t];
     const best = Math.min(...rows.filter(r => r.precio != null).map(r => r.precio));
-    tw.insertAdjacentHTML("beforeend", `<div class="card"><h2>${esc(t[0].toUpperCase()+t.slice(1))} · ${esc(d.fechas[t])} <span class="mute">${esc(d.rutas[t])}</span></h2>
-      <table><tr><th>Franja</th><th>Salida</th><th>Aerolínea</th><th style="text-align:right">Ahora</th><th style="text-align:right">Mín. hist.</th></tr>
-      ${rows.map(r => { const m = d.minimos[t][r.franja];
-        return `<tr class="${r.precio === best ? "best" : ""}"><td>${esc(r.franja)}</td>
-        <td>${r.precio == null ? "" : esc(r.hora_salida) + ` <span class="mute">${esc(r.origen)}</span>`}</td>
-        <td>${r.precio == null ? '<span class="mute">sin vuelos</span>' : esc(r.aerolinea) + ` <span class="pill">${esc(r.vendedor)}</span>`}</td>
-        <td class="num">${fmt(r.precio)}</td><td class="num mute" title="${m ? esc(m.dia) : ""}">${m ? fmt(m.precio) : "—"}</td></tr>`; }).join("")}
-      </table></div>`);
+    tw.insertAdjacentHTML("beforeend", `<div class="card">
+      <h2>${esc(cap(t))} · ${esc(fecha(d.fechas[t]))} <span class="mute">${esc(d.rutas[t])}</span></h2>
+      <div class="tw"><table>
+        <tr><th>Franja</th><th>Vuelo</th><th class="num">Ahora</th><th class="num">Mín. hist.</th></tr>
+        ${rows.map(r => { const m = d.minimos[t][r.franja];
+          const vuelo = r.precio == null ? '<span class="mute">sin vuelos</span>'
+            : `${esc(r.hora_salida)} ${esc(r.aerolinea)}<span class="sub">${esc(r.origen)}→${esc(r.destino)}<span class="hide-sm"> · vía ${esc(r.vendedor)}</span></span>`;
+          return `<tr class="${r.precio === best ? "best" : ""}">
+            <td>${esc(nomFranja(r.franja))}</td><td>${vuelo}</td>
+            <td class="num">${fmt(r.precio)}</td>
+            <td class="num mute">${m ? fmt(m.precio) : "—"}${m ? `<span class="sub">${esc(m.dia.slice(5))}</span>` : ""}</td></tr>`; }).join("")}
+      </table></div></div>`);
   });
 
   // Aerolíneas
   const al = document.getElementById("aerolineas");
-  al.insertAdjacentHTML("beforeend", d.tramos.map(t => `<h2 class="mute" style="font-size:13px;margin:10px 0 4px">${esc(t)}</h2><table>` +
-    d.por_aerolinea[t].map(r => `<tr><td>${esc(r.aerolinea)}</td><td>${esc(r.hora_salida)} <span class="mute">${esc(r.origen)}→${esc(r.destino)}</span></td><td class="num">${fmt(r.precio)}</td></tr>`).join("") + "</table>").join(""));
+  al.insertAdjacentHTML("beforeend", d.tramos.map(t => `<div class="section-label">${esc(cap(t))}</div><div class="tw"><table>` +
+    d.por_aerolinea[t].map(r => `<tr><td>${esc(r.aerolinea)}</td><td>${esc(r.hora_salida)} <span class="mute">${esc(r.origen)}→${esc(r.destino)}</span></td><td class="num">${fmt(r.precio)}</td></tr>`).join("") + "</table></div>").join(""));
 
   // Agencias
   const ag = document.getElementById("agencias");
   ag.insertAdjacentHTML("beforeend", d.agencias.length
-    ? `<table><tr><th>Tramo</th><th>Vendedor</th><th>Vuelo</th><th style="text-align:right">Precio</th></tr>` +
-      d.agencias.map(a => `<tr><td>${esc(a.tramo)}</td><td>${esc(a.vendedor)} ${a.tipo_vendedor === "aerolinea" ? '<span class="pill">directo</span>' : ""}</td><td>${esc(a.aerolinea)} ${esc(a.hora_salida)}</td><td class="num">${fmt(a.precio)}</td></tr>`).join("") + "</table>"
+    ? `<div class="tw"><table><tr><th>Tramo</th><th>Vendedor</th><th class="hide-sm">Vuelo</th><th class="num">Precio</th></tr>` +
+      d.agencias.map(a => `<tr><td>${esc(cap(a.tramo))}</td><td>${esc(a.vendedor)} ${a.tipo_vendedor === "aerolinea" ? '<span class="pill">directo</span>' : ""}</td><td class="hide-sm">${esc(a.aerolinea)} ${esc(a.hora_salida)}</td><td class="num">${fmt(a.precio)}</td></tr>`).join("") + "</table></div>"
     : `<p class="mute">Sin datos de agencias. Agrega el secret <code>SERPAPI_KEY</code> en el repo para activarlas.</p>`);
+
   // Gráficas (al final: si fallan, el resto ya se pintó)
   try {
-  const H = d.historico;
-  new Chart(document.getElementById("chartCombo"), { type: "line",
-    data: { labels: H.dias, datasets: [{ label: "Ida + vuelta (mínimo del día)", data: H.combo, borderColor: COLORS[1], backgroundColor: COLORS[1], tension: .25, spanGaps: true }] },
-    options: { plugins: { tooltip: { callbacks: { label: c => fmt(c.parsed.y) } } }, scales: { y: { ticks: { callback: v => fmt(v) } } } } });
-  const cw = document.getElementById("charts");
-  d.tramos.forEach((t, i) => {
-    cw.insertAdjacentHTML("beforeend", `<div class="card"><h2>${esc(t)} por franja</h2><canvas id="ch_${i}"></canvas></div>`);
-    new Chart(document.getElementById("ch_" + i), { type: "line",
-      data: { labels: H.dias, datasets: d.franjas.map((f, j) => ({ label: f, data: H.series[t][f], borderColor: COLORS[j % COLORS.length], backgroundColor: COLORS[j % COLORS.length], tension: .25, spanGaps: true, pointRadius: 2 })) },
-      options: { plugins: { tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmt(c.parsed.y)}` } } }, scales: { y: { ticks: { callback: v => fmt(v) } } } } });
-  });
-
+    const H = d.historico;
+    const sm = small();
+    const ink = getComputedStyle(document.documentElement).getPropertyValue("--mute").trim();
+    const grid = getComputedStyle(document.documentElement).getPropertyValue("--line").trim();
+    Chart.defaults.color = ink;
+    Chart.defaults.font.size = sm ? 11 : 12;
+    const etiquetas = H.dias.map(x => x.slice(5));  // MM-DD, más corto en móvil
+    const base = (tooltipLabel) => ({
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { position: "bottom", labels: { boxWidth: sm ? 10 : 14, boxHeight: sm ? 10 : 12, padding: sm ? 8 : 12 } },
+        tooltip: { callbacks: { label: tooltipLabel } },
+      },
+      scales: {
+        x: { grid: { color: grid }, ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: sm ? 5 : 10 } },
+        y: { grid: { color: grid }, ticks: { callback: v => small() ? fmtShort(v) : fmt(v), maxTicksLimit: 6 } },
+      },
+    });
+    const charts = [];
+    charts.push(new Chart(document.getElementById("chartCombo"), { type: "line",
+      data: { labels: etiquetas, datasets: [{ label: "Ida + vuelta", data: H.combo, borderColor: COLORS[1], backgroundColor: COLORS[1], tension: .25, spanGaps: true, pointRadius: sm ? 2 : 3 }] },
+      options: base(c => fmt(c.parsed.y)) }));
+    const cw = document.getElementById("charts");
+    d.tramos.forEach((t, i) => {
+      cw.insertAdjacentHTML("beforeend", `<div class="card"><h2>${esc(cap(t))} por franja <span class="mute">mínimo diario</span></h2><div class="chart"><canvas id="ch_${i}"></canvas></div></div>`);
+      charts.push(new Chart(document.getElementById("ch_" + i), { type: "line",
+        data: { labels: etiquetas, datasets: d.franjas.map((f, j) => ({ label: nomFranja(f), data: H.series[t][f], borderColor: COLORS[j % COLORS.length], backgroundColor: COLORS[j % COLORS.length], tension: .25, spanGaps: true, pointRadius: sm ? 1.5 : 2 })) },
+        options: base(c => `${c.dataset.label}: ${fmt(c.parsed.y)}`) }));
+    });
+    // Al rotar el celular o cambiar el tamaño de ventana, ajusta fuentes y ejes
+    window.matchMedia("(max-width:480px)").addEventListener("change", () => {
+      const m = small();
+      Chart.defaults.font.size = m ? 11 : 12;
+      charts.forEach(ch => {
+        ch.options.scales.x.ticks.maxTicksLimit = m ? 5 : 10;
+        ch.options.plugins.legend.labels.boxWidth = m ? 10 : 14;
+        ch.update("none");
+      });
+    });
   } catch (e) { console.error(e); }
 }).catch(e => { document.getElementById("meta").textContent = "No se pudo cargar data.json: " + e; });
 </script>
