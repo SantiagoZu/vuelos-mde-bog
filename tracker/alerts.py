@@ -5,6 +5,7 @@ Reglas (configurables en config.yaml > alertas.reglas):
   - caida_pct_vs_anterior    el viaje completo baja X % frente a la consulta anterior
   - caida_pct_vs_promedio_7d el viaje completo queda X % bajo el promedio de 7 días
   - precio_objetivo          el viaje completo queda en o por debajo de un precio
+  - precio_objetivo_tramo    un solo trayecto (ida o vuelta) queda en o por debajo de un precio
   - caida_pct_franja         una franja concreta baja X % frente a la consulta anterior
 
 El estado de los avisos ya enviados vive en data/alertas_estado.json (versionado),
@@ -85,6 +86,15 @@ def evaluar(filas: list[dict], d: dict, cfg: Config) -> list[Alerta]:
         out.append(Alerta("precio_objetivo", total,
                           f"Llegó al precio objetivo: {cop(total)} ≤ {cop(int(objetivo))}"))
 
+    objetivo_tramo = reglas.get("precio_objetivo_tramo")
+    if objetivo_tramo is not None:
+        for p_ in actual["tramos"]:
+            if p_["precio"] <= int(objetivo_tramo):
+                tramo = p_["tramo"]
+                out.append(Alerta(f"precio_objetivo_tramo:{tramo}", p_["precio"],
+                                  f"{tramo.capitalize()} llegó al precio objetivo por trayecto: {cop(p_['precio'])} ≤ "
+                                  f"{cop(int(objetivo_tramo))} ({p_['aerolinea']} {p_['hora_salida']}, vía {p_['vendedor']})"))
+
     umbral = reglas.get("caida_pct_franja")
     if umbral is not None and previos:
         run_prev = previos[-1]["run"]
@@ -120,15 +130,15 @@ def leer_estado() -> dict:
 
 def filtrar_nuevas(alertas: list[Alerta], estado: dict, ahora: datetime, enfriamiento_h: float) -> list[Alerta]:
     """Deja pasar una alerta si nunca se envió, si el precio es más bajo que en el
-    último aviso de esa regla, o si ya pasó el enfriamiento (excepto precio_objetivo,
-    que solo vuelve a avisar si el precio baja todavía más)."""
+    último aviso de esa regla, o si ya pasó el enfriamiento (excepto precio_objetivo
+    y precio_objetivo_tramo, que solo vuelven a avisar si el precio baja todavía más)."""
     nuevas = []
     for a in alertas:
         prev = estado.get(a.regla)
         if prev is None or a.precio < prev["precio"]:
             nuevas.append(a)
             continue
-        if a.regla == "precio_objetivo":
+        if a.regla.startswith("precio_objetivo"):
             continue
         if ahora - datetime.fromisoformat(prev["cuando"]) >= timedelta(hours=enfriamiento_h):
             nuevas.append(a)

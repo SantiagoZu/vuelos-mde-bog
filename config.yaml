@@ -60,7 +60,10 @@ alertas:
     nuevo_minimo_historico: true     # el viaje completo marca el precio más bajo visto hasta ahora
     caida_pct_vs_anterior: 10        # baja ≥ 10 % frente a la consulta anterior
     caida_pct_vs_promedio_7d: 12     # queda ≥ 12 % por debajo del promedio de los últimos 7 días
-    precio_objetivo: null            # p. ej. 250000 -> avisa si ida+vuelta queda en o por debajo
+    # Referencia: en Black Week/Black Friday del año pasado esta ruta se compró entre
+    # $80.000 y $100.000 por trayecto. Hoy (nov-2026) está en ~$153.000-$159.000 por trayecto.
+    precio_objetivo: 200000          # ida+vuelta en o por debajo de esto
+    precio_objetivo_tramo: 100000    # un solo trayecto (ida o vuelta) en o por debajo de esto
     caida_pct_franja: 20             # una franja (ida o vuelta) baja ≥ 20 % vs la consulta anterior
 
   # Anti-spam: una misma regla no vuelve a avisar en este tiempo,

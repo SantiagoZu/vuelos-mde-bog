@@ -1,6 +1,6 @@
 # ✈️ Tracker de vuelos Medellín ⇄ Bogotá
 
-Revisa **dos veces al día** (≈ 6:41 a.m. y 6:41 p.m. hora Colombia) los precios para:
+Revisa **dos veces al día** (≈ 6:41 a.m. y 6:41 p.m. hora Colombia) —y **cada 3 horas del 20 de noviembre al 2 de diciembre**, por Black Week/Black Friday/Cyber Monday— los precios para:
 
 - **Ida:** 20 de marzo de 2027 · MDE (Rionegro) / EOH (Olaya Herrera) → BOG
 - **Vuelta:** 23 de marzo de 2027 · BOG → MDE / EOH
@@ -43,7 +43,8 @@ Se evalúan en cada ejecución y se configuran en `config.yaml > alertas`:
 | `nuevo_minimo_historico` | activa | ida + vuelta marca el precio más bajo visto hasta ahora |
 | `caida_pct_vs_anterior` | 10 % | ida + vuelta baja ese % frente a la consulta anterior |
 | `caida_pct_vs_promedio_7d` | 12 % | ida + vuelta queda ese % por debajo del promedio de 7 días (desde 4 consultas) |
-| `precio_objetivo` | apagada | ida + vuelta queda en o por debajo del precio que pongas (p. ej. `250000`) |
+| `precio_objetivo` | $200.000 | ida + vuelta queda en o por debajo de ese precio |
+| `precio_objetivo_tramo` | $100.000 | un solo trayecto (ida o vuelta) queda en o por debajo de ese precio |
 | `caida_pct_franja` | 20 % | una franja concreta (p. ej. ida en la mañana) baja ese % vs la consulta anterior |
 
 **Canales:** se abre un *issue* en el repo con la etiqueta `alerta-precio` que te menciona, y GitHub te

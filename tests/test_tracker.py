@@ -146,7 +146,7 @@ def _historia(cfg, totales):
 
 def _reglas(cfg, **kw):
     base = {"nuevo_minimo_historico": False, "caida_pct_vs_anterior": None, "caida_pct_vs_promedio_7d": None,
-            "precio_objetivo": None, "caida_pct_franja": None}
+            "precio_objetivo": None, "precio_objetivo_tramo": None, "caida_pct_franja": None}
     cfg.alertas = {"reglas": base | kw, "canales": {"github_issue": True, "telegram": True}, "enfriamiento_horas": 24}
     return cfg
 
@@ -222,3 +222,14 @@ def test_procesar_envia_issue_y_telegram(cfg, tmp_path, monkeypatch):
     # segunda vez con el mismo precio: no reenvía
     llamadas.clear()
     assert alerts.procesar(filas, d, cfg) == [] and llamadas == []
+
+
+def test_alerta_objetivo_por_tramo(cfg):
+    _reglas(cfg, precio_objetivo_tramo=100000)
+    assert _evaluar(cfg, [320000, 210000]) == []                        # 105k por trayecto
+    alertas = _evaluar(cfg, [320000, 190000])                            # 95k por trayecto
+    assert {a.regla for a in alertas} == {"precio_objetivo_tramo:ida", "precio_objetivo_tramo:vuelta"}
+    # solo vuelve a avisar si baja más, no por enfriamiento
+    ahora = datetime(2026, 11, 27, tzinfo=timezone.utc)
+    estado = {a.regla: {"precio": a.precio, "cuando": (ahora - timedelta(days=3)).isoformat()} for a in alertas}
+    assert alerts.filtrar_nuevas(alertas, estado, ahora, 24) == []

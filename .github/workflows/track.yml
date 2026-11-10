@@ -2,8 +2,8 @@ name: Rastrear vuelos MDE-BOG
 
 # Presupuesto de Actions (pensado para no salirse NUNCA del plan gratis):
 #  - Repo público: los runners estándar de GitHub no consumen minutos (gratis ilimitado).
-#  - Aun si el repo pasara a privado: 2 ejecuciones/día × ~3 min ≈ 180 min/mes,
-#    menos del 10 % de los 2.000 min/mes del plan Free.
+#  - Aun si el repo pasara a privado: 2 ejecuciones/día × ~1-3 min ≈ 60-180 min/mes,
+#    + Black Week (13 días × 8 extra) ≈ 100-300 min, siempre muy por debajo de 2.000 min/mes.
 #  - Un solo job por ejecución (cada job se cobra redondeado al minuto) y tope duro
 #    de 6 min por ejecución con timeout-minutes.
 
@@ -12,6 +12,10 @@ on:
     # 2 veces al día (hora Colombia ≈ 6:41 a.m. y 6:41 p.m.). GitHub usa UTC.
     - cron: "41 11 * * *"
     - cron: "41 23 * * *"
+    # Black Week / Black Friday / Cyber Monday (20 nov – 2 dic): además, cada 3 horas,
+    # porque las promos relámpago de las aerolíneas pueden durar pocas horas.
+    - cron: "17 */3 20-30 11 *"
+    - cron: "17 */3 1-2 12 *"
   workflow_dispatch:
     inputs:
       force_serpapi:

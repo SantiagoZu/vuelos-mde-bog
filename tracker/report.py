@@ -32,7 +32,7 @@ def _min_por(filas, *keys):
 
 
 def _ficha(r: dict) -> dict:
-    campos = ("precio", "aerolinea", "vendedor", "tipo_vendedor", "hora_salida", "hora_llegada",
+    campos = ("tramo", "precio", "aerolinea", "vendedor", "tipo_vendedor", "hora_salida", "hora_llegada",
               "vuelo", "origen", "destino", "fuente", "franja", "fecha_vuelo")
     return {c: r[c] for c in campos}
 
