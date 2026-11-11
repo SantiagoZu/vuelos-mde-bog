@@ -1,6 +1,10 @@
 {
+ "caida_pct_vs_anterior": {
+  "cuando": "2026-11-11T03:00+00:00",
+  "precio": 271030
+ },
  "nuevo_minimo_historico": {
-  "cuando": "2026-11-10T18:49+00:00",
-  "precio": 305540
+  "cuando": "2026-11-11T03:00+00:00",
+  "precio": 271030
  }
 }
