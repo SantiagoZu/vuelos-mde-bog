@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-11T13:53-05:00",
+ "generado": "2026-11-11T23:13-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261111T1852Z",
- "ultimo_observado": "2026-11-11T18:52:37Z",
- "ejecuciones": 4,
+ "ultimo_run": "20261112T0413Z",
+ "ultimo_observado": "2026-11-12T04:13:31Z",
+ "ejecuciones": 5,
  "actual": {
   "ida": [
    {
@@ -44,13 +44,13 @@
    {
     "franja": "manana",
     "tramo": "ida",
-    "precio": 152250,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
+    "precio": 159920,
+    "aerolinea": "Wingo",
+    "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "09:27",
-    "hora_llegada": "10:30",
-    "vuelo": "JA 5111",
+    "hora_salida": "07:02",
+    "hora_llegada": "08:00",
+    "vuelo": "P5 7269",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -59,7 +59,7 @@
    {
     "franja": "mediodia",
     "tramo": "ida",
-    "precio": 118810,
+    "precio": 120710,
     "aerolinea": "LATAM",
     "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
@@ -74,7 +74,7 @@
    {
     "franja": "tarde",
     "tramo": "ida",
-    "precio": 152250,
+    "precio": 187950,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -89,7 +89,7 @@
    {
     "franja": "noche",
     "tramo": "ida",
-    "precio": 153320,
+    "precio": 159750,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -166,7 +166,7 @@
    {
     "franja": "noche",
     "tramo": "vuelta",
-    "precio": 152220,
+    "precio": 158650,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -199,17 +199,17 @@
    },
    {
     "tramo": "ida",
-    "precio": 152250,
+    "precio": 159750,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "09:27",
-    "hora_llegada": "10:30",
-    "vuelo": "JA 5111",
+    "hora_salida": "05:02",
+    "hora_llegada": "06:05",
+    "vuelo": "JA 5132",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
-    "franja": "manana",
+    "franja": "madrugada",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -244,7 +244,7 @@
    },
    {
     "tramo": "ida",
-    "precio": 302070,
+    "precio": 344790,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
@@ -261,7 +261,7 @@
   "vuelta": [
    {
     "tramo": "vuelta",
-    "precio": 152220,
+    "precio": 158650,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -321,7 +321,7 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 330720,
+    "precio": 378440,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
@@ -338,7 +338,7 @@
  },
  "agencias": [],
  "combo_actual": {
-  "total": 271030,
+  "total": 277460,
   "tramos": [
    {
     "tramo": "ida",
@@ -357,7 +357,7 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 152220,
+    "precio": 158650,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -426,6 +426,10 @@
   {
    "run": "20261111T1852Z",
    "total": 271030
+  },
+  {
+   "run": "20261112T0413Z",
+   "total": 277460
   }
  ],
  "historico": {
