@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-12T14:06-05:00",
+ "generado": "2026-11-12T22:35-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261112T1906Z",
- "ultimo_observado": "2026-11-12T19:06:40Z",
- "ejecuciones": 6,
+ "ultimo_run": "20261113T0335Z",
+ "ultimo_observado": "2026-11-13T03:35:01Z",
+ "ejecuciones": 7,
  "actual": {
   "ida": [
    {
@@ -166,13 +166,13 @@
    {
     "franja": "noche",
     "tramo": "vuelta",
-    "precio": 158650,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
+    "precio": 158820,
+    "aerolinea": "Wingo",
+    "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "22:55",
-    "hora_llegada": "00:07",
-    "vuelo": "JA 5131",
+    "hora_salida": "20:10",
+    "hora_llegada": "21:12",
+    "vuelo": "P5 7276",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
@@ -261,21 +261,6 @@
   "vuelta": [
    {
     "tramo": "vuelta",
-    "precio": 158650,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
-    "tipo_vendedor": "aerolinea",
-    "hora_salida": "22:55",
-    "hora_llegada": "00:07",
-    "vuelo": "JA 5131",
-    "origen": "BOG",
-    "destino": "MDE",
-    "fuente": "google_flights",
-    "franja": "noche",
-    "fecha_vuelo": "2027-03-23"
-   },
-   {
-    "tramo": "vuelta",
     "precio": 158820,
     "aerolinea": "Wingo",
     "vendedor": "Wingo",
@@ -302,6 +287,21 @@
     "destino": "MDE",
     "fuente": "google_flights",
     "franja": "manana",
+    "fecha_vuelo": "2027-03-23"
+   },
+   {
+    "tramo": "vuelta",
+    "precio": 186850,
+    "aerolinea": "JetSMART",
+    "vendedor": "JetSMART",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "10:20",
+    "hora_llegada": "11:32",
+    "vuelo": "JA 5139",
+    "origen": "BOG",
+    "destino": "MDE",
+    "fuente": "google_flights",
+    "franja": "mediodia",
     "fecha_vuelo": "2027-03-23"
    },
    {
@@ -338,7 +338,7 @@
  },
  "agencias": [],
  "combo_actual": {
-  "total": 318400,
+  "total": 318570,
   "tramos": [
    {
     "tramo": "ida",
@@ -357,17 +357,17 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 158650,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
+    "precio": 158820,
+    "aerolinea": "Wingo",
+    "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "22:55",
-    "hora_llegada": "00:07",
-    "vuelo": "JA 5131",
+    "hora_salida": "05:15",
+    "hora_llegada": "06:18",
+    "vuelo": "P5 7268",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
-    "franja": "noche",
+    "franja": "madrugada",
     "fecha_vuelo": "2027-03-23"
    }
   ]
@@ -434,6 +434,10 @@
   {
    "run": "20261112T1906Z",
    "total": 318400
+  },
+  {
+   "run": "20261113T0335Z",
+   "total": 318570
   }
  ],
  "historico": {
