@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-14T12:17-05:00",
+ "generado": "2026-11-14T22:04-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261114T1717Z",
- "ultimo_observado": "2026-11-14T17:17:42Z",
- "ejecuciones": 10,
+ "ultimo_run": "20261115T0303Z",
+ "ultimo_observado": "2026-11-15T03:03:57Z",
+ "ejecuciones": 11,
  "actual": {
   "ida": [
    {
@@ -188,13 +188,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:52",
-    "hora_llegada": "22:55",
-    "vuelo": "JA 5121",
+    "hora_salida": "05:02",
+    "hora_llegada": "06:05",
+    "vuelo": "JA 5132",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
-    "franja": "noche",
+    "franja": "madrugada",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -244,17 +244,17 @@
    },
    {
     "tramo": "ida",
-    "precio": 219840,
+    "precio": 344790,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:05",
-    "hora_llegada": "22:05",
-    "vuelo": "AV 9327",
+    "hora_salida": "04:30",
+    "hora_llegada": "05:30",
+    "vuelo": "AV 9653",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
-    "franja": "noche",
+    "franja": "madrugada",
     "fecha_vuelo": "2027-03-20"
    }
   ],
@@ -306,21 +306,6 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 202200,
-    "aerolinea": "Clic",
-    "vendedor": "Clic",
-    "tipo_vendedor": "aerolinea",
-    "hora_salida": "08:15",
-    "hora_llegada": "09:30",
-    "vuelo": "VE 9106",
-    "origen": "BOG",
-    "destino": "EOH",
-    "fuente": "google_flights",
-    "franja": "manana",
-    "fecha_vuelo": "2027-03-23"
-   },
-   {
-    "tramo": "vuelta",
     "precio": 378440,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
@@ -346,13 +331,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:52",
-    "hora_llegada": "22:55",
-    "vuelo": "JA 5121",
+    "hora_salida": "05:02",
+    "hora_llegada": "06:05",
+    "vuelo": "JA 5132",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
-    "franja": "noche",
+    "franja": "madrugada",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -449,6 +434,10 @@
   },
   {
    "run": "20261114T1717Z",
+   "total": 318570
+  },
+  {
+   "run": "20261115T0303Z",
    "total": 318570
   }
  ],
