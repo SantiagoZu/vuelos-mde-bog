@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-15T12:58-05:00",
+ "generado": "2026-11-15T22:06-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261115T1758Z",
- "ultimo_observado": "2026-11-15T17:58:17Z",
- "ejecuciones": 12,
+ "ultimo_run": "20261116T0306Z",
+ "ultimo_observado": "2026-11-16T03:06:22Z",
+ "ejecuciones": 13,
  "actual": {
   "ida": [
    {
@@ -188,13 +188,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "05:02",
-    "hora_llegada": "06:05",
-    "vuelo": "JA 5132",
+    "hora_salida": "21:52",
+    "hora_llegada": "22:55",
+    "vuelo": "JA 5121",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
-    "franja": "madrugada",
+    "franja": "noche",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -346,13 +346,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "05:02",
-    "hora_llegada": "06:05",
-    "vuelo": "JA 5132",
+    "hora_salida": "21:52",
+    "hora_llegada": "22:55",
+    "vuelo": "JA 5121",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
-    "franja": "madrugada",
+    "franja": "noche",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -457,6 +457,10 @@
   },
   {
    "run": "20261115T1758Z",
+   "total": 318570
+  },
+  {
+   "run": "20261116T0306Z",
    "total": 318570
   }
  ],
