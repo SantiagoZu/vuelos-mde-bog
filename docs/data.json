@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-15T22:06-05:00",
+ "generado": "2026-11-16T16:14-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,21 +21,21 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261116T0306Z",
- "ultimo_observado": "2026-11-16T03:06:22Z",
- "ejecuciones": 13,
+ "ultimo_run": "20261116T2114Z",
+ "ultimo_observado": "2026-11-16T21:14:10Z",
+ "ejecuciones": 14,
  "actual": {
   "ida": [
    {
     "franja": "madrugada",
     "tramo": "ida",
-    "precio": 159750,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
+    "precio": 159920,
+    "aerolinea": "Wingo",
+    "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "05:02",
-    "hora_llegada": "06:05",
-    "vuelo": "JA 5132",
+    "hora_salida": "00:42",
+    "hora_llegada": "01:40",
+    "vuelo": "P5 7609",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -214,7 +214,7 @@
    },
    {
     "tramo": "ida",
-    "precio": 166410,
+    "precio": 166290,
     "aerolinea": "LATAM",
     "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
@@ -248,9 +248,9 @@
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "04:30",
-    "hora_llegada": "05:30",
-    "vuelo": "AV 9653",
+    "hora_salida": "01:55",
+    "hora_llegada": "02:55",
+    "vuelo": "AV 9378",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -462,6 +462,10 @@
   {
    "run": "20261116T0306Z",
    "total": 318570
+  },
+  {
+   "run": "20261116T2114Z",
+   "total": 318570
   }
  ],
  "historico": {
@@ -472,7 +476,8 @@
    "2026-11-12",
    "2026-11-13",
    "2026-11-14",
-   "2026-11-15"
+   "2026-11-15",
+   "2026-11-16"
   ],
   "series": {
    "ida": {
@@ -483,12 +488,14 @@
      159920,
      159920,
      159750,
-     159750
+     159750,
+     159920
     ],
     "manana": [
      153320,
      159920,
      152250,
+     159920,
      159920,
      159920,
      159920,
@@ -501,6 +508,7 @@
      159920,
      159920,
      159920,
+     159920,
      159920
     ],
     "tarde": [
@@ -510,12 +518,14 @@
      173190,
      173190,
      187950,
+     187950,
      187950
     ],
     "noche": [
      153320,
      153320,
      153320,
+     159750,
      159750,
      159750,
      159750,
@@ -530,9 +540,11 @@
      158820,
      158820,
      158820,
+     158820,
      158820
     ],
     "manana": [
+     158820,
      158820,
      158820,
      158820,
@@ -548,9 +560,11 @@
      158820,
      158820,
      158820,
+     158820,
      158820
     ],
     "tarde": [
+     158820,
      158820,
      158820,
      158820,
@@ -566,6 +580,7 @@
      158650,
      158820,
      158820,
+     158820,
      158820
     ]
    }
@@ -575,6 +590,7 @@
    271030,
    271030,
    318400,
+   318570,
    318570,
    318570,
    318570
