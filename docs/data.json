@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-17T00:14-05:00",
+ "generado": "2026-11-17T15:00-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261117T0514Z",
- "ultimo_observado": "2026-11-17T05:14:27Z",
- "ejecuciones": 15,
+ "ultimo_run": "20261117T1959Z",
+ "ultimo_observado": "2026-11-17T19:59:50Z",
+ "ejecuciones": 16,
  "actual": {
   "ida": [
    {
@@ -74,7 +74,7 @@
    {
     "franja": "tarde",
     "tramo": "ida",
-    "precio": 187950,
+    "precio": 173190,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -214,17 +214,17 @@
    },
    {
     "tramo": "ida",
-    "precio": 166290,
+    "precio": 166410,
     "aerolinea": "LATAM",
     "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "05:35",
-    "hora_llegada": "06:40",
-    "vuelo": "LA 4005",
+    "hora_salida": "22:40",
+    "hora_llegada": "23:45",
+    "vuelo": "LA 4035",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
-    "franja": "madrugada",
+    "franja": "noche",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -244,7 +244,7 @@
    },
    {
     "tramo": "ida",
-    "precio": 344790,
+    "precio": 375850,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
@@ -321,7 +321,7 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 378440,
+    "precio": 414020,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
@@ -470,6 +470,10 @@
   {
    "run": "20261117T0514Z",
    "total": 318570
+  },
+  {
+   "run": "20261117T1959Z",
+   "total": 318570
   }
  ],
  "historico": {
@@ -528,7 +532,7 @@
      187950,
      187950,
      187950,
-     187950
+     173190
     ],
     "noche": [
      153320,
