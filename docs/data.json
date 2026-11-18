@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-17T23:42-05:00",
+ "generado": "2026-11-18T14:34-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261118T0442Z",
- "ultimo_observado": "2026-11-18T04:42:24Z",
- "ejecuciones": 17,
+ "ultimo_run": "20261118T1934Z",
+ "ultimo_observado": "2026-11-18T19:34:26Z",
+ "ejecuciones": 18,
  "actual": {
   "ida": [
    {
@@ -74,7 +74,7 @@
    {
     "franja": "tarde",
     "tramo": "ida",
-    "precio": 173190,
+    "precio": 187950,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -111,7 +111,7 @@
     "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
     "hora_salida": "05:15",
-    "hora_llegada": "06:18",
+    "hora_llegada": "06:16",
     "vuelo": "P5 7268",
     "origen": "BOG",
     "destino": "MDE",
@@ -141,7 +141,7 @@
     "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
     "hora_salida": "10:00",
-    "hora_llegada": "11:03",
+    "hora_llegada": "11:01",
     "vuelo": "P5 7270",
     "origen": "BOG",
     "destino": "MDE",
@@ -244,7 +244,7 @@
    },
    {
     "tramo": "ida",
-    "precio": 375850,
+    "precio": 341340,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
@@ -266,7 +266,7 @@
     "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
     "hora_salida": "05:15",
-    "hora_llegada": "06:18",
+    "hora_llegada": "06:16",
     "vuelo": "P5 7268",
     "origen": "BOG",
     "destino": "MDE",
@@ -325,13 +325,13 @@
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:20",
-    "hora_llegada": "22:25",
-    "vuelo": "AV 9334",
+    "hora_salida": "10:20",
+    "hora_llegada": "11:20",
+    "vuelo": "AV 9316",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
-    "franja": "noche",
+    "franja": "mediodia",
     "fecha_vuelo": "2027-03-23"
    }
   ]
@@ -362,7 +362,7 @@
     "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
     "hora_salida": "05:15",
-    "hora_llegada": "06:18",
+    "hora_llegada": "06:16",
     "vuelo": "P5 7268",
     "origen": "BOG",
     "destino": "MDE",
@@ -478,6 +478,10 @@
   {
    "run": "20261118T0442Z",
    "total": 318450
+  },
+  {
+   "run": "20261118T1934Z",
+   "total": 318450
   }
  ],
  "historico": {
@@ -490,7 +494,8 @@
    "2026-11-14",
    "2026-11-15",
    "2026-11-16",
-   "2026-11-17"
+   "2026-11-17",
+   "2026-11-18"
   ],
   "series": {
    "ida": {
@@ -503,12 +508,14 @@
      159750,
      159750,
      159920,
+     159920,
      159920
     ],
     "manana": [
      153320,
      159920,
      152250,
+     159920,
      159920,
      159920,
      159920,
@@ -525,6 +532,7 @@
      159920,
      159920,
      159920,
+     159920,
      159920
     ],
     "tarde": [
@@ -536,7 +544,8 @@
      187950,
      187950,
      187950,
-     173190
+     173190,
+     187950
     ],
     "noche": [
      153320,
@@ -547,11 +556,13 @@
      159750,
      159750,
      159750,
+     159630,
      159630
     ]
    },
    "vuelta": {
     "madrugada": [
+     158820,
      158820,
      158820,
      158820,
@@ -571,6 +582,7 @@
      158820,
      158820,
      158820,
+     158820,
      158820
     ],
     "mediodia": [
@@ -582,9 +594,11 @@
      158820,
      158820,
      158820,
+     158820,
      158820
     ],
     "tarde": [
+     158820,
      158820,
      158820,
      158820,
@@ -604,6 +618,7 @@
      158820,
      158820,
      158820,
+     158820,
      158820
     ]
    }
@@ -617,6 +632,7 @@
    318570,
    318570,
    318570,
+   318450,
    318450
   ]
  },
