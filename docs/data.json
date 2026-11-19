@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-18T14:34-05:00",
+ "generado": "2026-11-18T23:31-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261118T1934Z",
- "ultimo_observado": "2026-11-18T19:34:26Z",
- "ejecuciones": 18,
+ "ultimo_run": "20261119T0430Z",
+ "ultimo_observado": "2026-11-19T04:30:53Z",
+ "ejecuciones": 19,
  "actual": {
   "ida": [
    {
@@ -89,13 +89,13 @@
    {
     "franja": "noche",
     "tramo": "ida",
-    "precio": 159630,
-    "aerolinea": "LATAM",
-    "vendedor": "LATAM",
+    "precio": 159750,
+    "aerolinea": "JetSMART",
+    "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "22:40",
-    "hora_llegada": "23:45",
-    "vuelo": "LA 4035",
+    "hora_salida": "21:52",
+    "hora_llegada": "22:55",
+    "vuelo": "JA 5121",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -184,21 +184,6 @@
   "ida": [
    {
     "tramo": "ida",
-    "precio": 159630,
-    "aerolinea": "LATAM",
-    "vendedor": "LATAM",
-    "tipo_vendedor": "aerolinea",
-    "hora_salida": "22:40",
-    "hora_llegada": "23:45",
-    "vuelo": "LA 4035",
-    "origen": "MDE",
-    "destino": "BOG",
-    "fuente": "google_flights",
-    "franja": "noche",
-    "fecha_vuelo": "2027-03-20"
-   },
-   {
-    "tramo": "ida",
     "precio": 159750,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
@@ -225,6 +210,21 @@
     "destino": "BOG",
     "fuente": "google_flights",
     "franja": "madrugada",
+    "fecha_vuelo": "2027-03-20"
+   },
+   {
+    "tramo": "ida",
+    "precio": 166410,
+    "aerolinea": "LATAM",
+    "vendedor": "LATAM",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "22:40",
+    "hora_llegada": "23:45",
+    "vuelo": "LA 4035",
+    "origen": "MDE",
+    "destino": "BOG",
+    "fuente": "google_flights",
+    "franja": "noche",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -338,17 +338,17 @@
  },
  "agencias": [],
  "combo_actual": {
-  "total": 318450,
+  "total": 318570,
   "tramos": [
    {
     "tramo": "ida",
-    "precio": 159630,
-    "aerolinea": "LATAM",
-    "vendedor": "LATAM",
+    "precio": 159750,
+    "aerolinea": "JetSMART",
+    "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "22:40",
-    "hora_llegada": "23:45",
-    "vuelo": "LA 4035",
+    "hora_salida": "21:52",
+    "hora_llegada": "22:55",
+    "vuelo": "JA 5121",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -482,6 +482,10 @@
   {
    "run": "20261118T1934Z",
    "total": 318450
+  },
+  {
+   "run": "20261119T0430Z",
+   "total": 318570
   }
  ],
  "historico": {
