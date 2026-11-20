@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-20T12:46-05:00",
+ "generado": "2026-11-20T14:15-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,21 +21,21 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261120T1746Z",
- "ultimo_observado": "2026-11-20T17:46:11Z",
- "ejecuciones": 23,
+ "ultimo_run": "20261120T1915Z",
+ "ultimo_observado": "2026-11-20T19:15:29Z",
+ "ejecuciones": 24,
  "actual": {
   "ida": [
    {
     "franja": "madrugada",
     "tramo": "ida",
-    "precio": 159750,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
+    "precio": 159920,
+    "aerolinea": "Wingo",
+    "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "05:02",
-    "hora_llegada": "06:05",
-    "vuelo": "JA 5132",
+    "hora_salida": "00:42",
+    "hora_llegada": "01:40",
+    "vuelo": "P5 7609",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -199,6 +199,21 @@
    },
    {
     "tramo": "ida",
+    "precio": 129520,
+    "aerolinea": "LATAM",
+    "vendedor": "LATAM",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "21:40",
+    "hora_llegada": "22:45",
+    "vuelo": "LA 4029",
+    "origen": "MDE",
+    "destino": "BOG",
+    "fuente": "google_flights",
+    "franja": "noche",
+    "fecha_vuelo": "2027-03-20"
+   },
+   {
+    "tramo": "ida",
     "precio": 159920,
     "aerolinea": "Wingo",
     "vendedor": "Wingo",
@@ -210,21 +225,6 @@
     "destino": "BOG",
     "fuente": "google_flights",
     "franja": "madrugada",
-    "fecha_vuelo": "2027-03-20"
-   },
-   {
-    "tramo": "ida",
-    "precio": 170220,
-    "aerolinea": "LATAM",
-    "vendedor": "LATAM",
-    "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:40",
-    "hora_llegada": "22:45",
-    "vuelo": "LA 4029",
-    "origen": "MDE",
-    "destino": "BOG",
-    "fuente": "google_flights",
-    "franja": "noche",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -244,13 +244,13 @@
    },
    {
     "tramo": "ida",
-    "precio": 341340,
+    "precio": 375850,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "04:30",
-    "hora_llegada": "05:30",
-    "vuelo": "AV 9653",
+    "hora_salida": "01:55",
+    "hora_llegada": "02:55",
+    "vuelo": "AV 9378",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -291,7 +291,7 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 191490,
+    "precio": 177210,
     "aerolinea": "LATAM",
     "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
@@ -321,7 +321,7 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 391410,
+    "precio": 403310,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
@@ -409,7 +409,7 @@
    }
   ]
  },
- "nuevo_minimo": true,
+ "nuevo_minimo": false,
  "combos": [
   {
    "run": "20261110T0014Z",
@@ -497,6 +497,10 @@
   },
   {
    "run": "20261120T1746Z",
+   "total": 231760
+  },
+  {
+   "run": "20261120T1915Z",
    "total": 231760
   }
  ],
