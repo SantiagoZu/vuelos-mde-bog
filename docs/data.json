@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-19T23:17-05:00",
+ "generado": "2026-11-20T02:11-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261120T0416Z",
- "ultimo_observado": "2026-11-20T04:16:32Z",
- "ejecuciones": 21,
+ "ultimo_run": "20261120T0710Z",
+ "ultimo_observado": "2026-11-20T07:10:54Z",
+ "ejecuciones": 22,
  "actual": {
   "ida": [
    {
@@ -32,15 +32,48 @@
    },
    {
     "franja": "manana",
-    "precio": null
+    "tramo": "ida",
+    "precio": 209900,
+    "aerolinea": "Clic",
+    "vendedor": "Clic",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "06:10",
+    "hora_llegada": "07:15",
+    "vuelo": "VE 9109",
+    "origen": "EOH",
+    "destino": "BOG",
+    "fuente": "google_flights",
+    "fecha_vuelo": "2027-03-20"
    },
    {
     "franja": "mediodia",
-    "precio": null
+    "tramo": "ida",
+    "precio": 209900,
+    "aerolinea": "Clic",
+    "vendedor": "Clic",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "11:30",
+    "hora_llegada": "12:35",
+    "vuelo": "VE 9125",
+    "origen": "EOH",
+    "destino": "BOG",
+    "fuente": "google_flights",
+    "fecha_vuelo": "2027-03-20"
    },
    {
     "franja": "tarde",
-    "precio": null
+    "tramo": "ida",
+    "precio": 209900,
+    "aerolinea": "Clic",
+    "vendedor": "Clic",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "14:35",
+    "hora_llegada": "15:40",
+    "vuelo": "VE 9127",
+    "origen": "EOH",
+    "destino": "BOG",
+    "fuente": "google_flights",
+    "fecha_vuelo": "2027-03-20"
    },
    {
     "franja": "noche",
@@ -126,7 +159,23 @@
   ]
  },
  "por_aerolinea": {
-  "ida": [],
+  "ida": [
+   {
+    "tramo": "ida",
+    "precio": 209900,
+    "aerolinea": "Clic",
+    "vendedor": "Clic",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "06:10",
+    "hora_llegada": "07:15",
+    "vuelo": "VE 9109",
+    "origen": "EOH",
+    "destino": "BOG",
+    "fuente": "google_flights",
+    "franja": "manana",
+    "fecha_vuelo": "2027-03-20"
+   }
+  ],
   "vuelta": [
    {
     "tramo": "vuelta",
@@ -206,7 +255,41 @@
   ]
  },
  "agencias": [],
- "combo_actual": null,
+ "combo_actual": {
+  "total": 368720,
+  "tramos": [
+   {
+    "tramo": "ida",
+    "precio": 209900,
+    "aerolinea": "Clic",
+    "vendedor": "Clic",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "06:10",
+    "hora_llegada": "07:15",
+    "vuelo": "VE 9109",
+    "origen": "EOH",
+    "destino": "BOG",
+    "fuente": "google_flights",
+    "franja": "manana",
+    "fecha_vuelo": "2027-03-20"
+   },
+   {
+    "tramo": "vuelta",
+    "precio": 158820,
+    "aerolinea": "Wingo",
+    "vendedor": "Wingo",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "05:15",
+    "hora_llegada": "06:16",
+    "vuelo": "P5 7268",
+    "origen": "BOG",
+    "destino": "MDE",
+    "fuente": "google_flights",
+    "franja": "madrugada",
+    "fecha_vuelo": "2027-03-23"
+   }
+  ]
+ },
  "combo_minimo_historico": {
   "total": 271030,
   "tramos": [
@@ -325,6 +408,10 @@
   {
    "run": "20261119T1937Z",
    "total": 318570
+  },
+  {
+   "run": "20261120T0710Z",
+   "total": 368720
   }
  ],
  "historico": {
@@ -339,7 +426,8 @@
    "2026-11-16",
    "2026-11-17",
    "2026-11-18",
-   "2026-11-19"
+   "2026-11-19",
+   "2026-11-20"
   ],
   "series": {
    "ida": {
@@ -354,7 +442,8 @@
      159920,
      159920,
      159920,
-     159920
+     159920,
+     null
     ],
     "manana": [
      153320,
@@ -367,7 +456,8 @@
      159920,
      159920,
      159920,
-     159920
+     159920,
+     209900
     ],
     "mediodia": [
      154510,
@@ -380,7 +470,8 @@
      159920,
      159920,
      159920,
-     159920
+     159920,
+     209900
     ],
     "tarde": [
      153320,
@@ -393,7 +484,8 @@
      187950,
      173190,
      187950,
-     187950
+     187950,
+     209900
     ],
     "noche": [
      153320,
@@ -406,7 +498,8 @@
      159750,
      159630,
      159630,
-     159750
+     159750,
+     null
     ]
    },
    "vuelta": {
@@ -421,9 +514,11 @@
      158820,
      158820,
      158820,
+     158820,
      158820
     ],
     "manana": [
+     158820,
      158820,
      158820,
      158820,
@@ -447,9 +542,11 @@
      158820,
      158820,
      158820,
+     158820,
      158820
     ],
     "tarde": [
+     158820,
      158820,
      158820,
      158820,
@@ -473,6 +570,7 @@
      158820,
      158820,
      158820,
+     158820,
      158820
     ]
    }
@@ -488,7 +586,8 @@
    318570,
    318450,
    318450,
-   318570
+   318570,
+   368720
   ]
  },
  "minimos": {
