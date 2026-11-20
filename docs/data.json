@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-20T14:15-05:00",
+ "generado": "2026-11-20T18:59-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261120T1915Z",
- "ultimo_observado": "2026-11-20T19:15:29Z",
- "ejecuciones": 24,
+ "ultimo_run": "20261120T2358Z",
+ "ultimo_observado": "2026-11-20T23:58:47Z",
+ "ejecuciones": 25,
  "actual": {
   "ida": [
    {
@@ -74,7 +74,7 @@
    {
     "franja": "tarde",
     "tramo": "ida",
-    "precio": 152250,
+    "precio": 162960,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -321,17 +321,17 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 403310,
+    "precio": 414020,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "04:35",
-    "hora_llegada": "05:35",
-    "vuelo": "AV 9350",
+    "hora_salida": "10:20",
+    "hora_llegada": "11:20",
+    "vuelo": "AV 9316",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
-    "franja": "madrugada",
+    "franja": "mediodia",
     "fecha_vuelo": "2027-03-23"
    }
   ]
@@ -501,6 +501,10 @@
   },
   {
    "run": "20261120T1915Z",
+   "total": 231760
+  },
+  {
+   "run": "20261120T2358Z",
    "total": 231760
   }
  ],
