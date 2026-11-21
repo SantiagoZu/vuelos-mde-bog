@@ -1,4 +1,4 @@
-# ✈️ Vuelos Medellín ⇄ Bogotá — 2026-11-20 23:16 (hora Colombia)
+# ✈️ Vuelos Medellín ⇄ Bogotá — 2026-11-21 02:03 (hora Colombia)
 
 **Viaje completo más barato ahora: $231.760** (1 adulto(s))
 
