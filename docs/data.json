@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-22T13:39-05:00",
+ "generado": "2026-11-22T18:36-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261122T1838Z",
- "ultimo_observado": "2026-11-22T18:38:42Z",
- "ejecuciones": 33,
+ "ultimo_run": "20261122T2335Z",
+ "ultimo_observado": "2026-11-22T23:35:44Z",
+ "ejecuciones": 34,
  "actual": {
   "ida": [
    {
@@ -59,13 +59,13 @@
    {
     "franja": "mediodia",
     "tramo": "ida",
-    "precio": 183430,
-    "aerolinea": "LATAM",
-    "vendedor": "LATAM",
+    "precio": 188780,
+    "aerolinea": "JetSMART",
+    "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "11:30",
-    "hora_llegada": "12:30",
-    "vuelo": "LA 4047",
+    "hora_salida": "10:22",
+    "hora_llegada": "11:25",
+    "vuelo": "JA 5113",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -214,7 +214,7 @@
    },
    {
     "tramo": "ida",
-    "precio": 168910,
+    "precio": 178310,
     "aerolinea": "LATAM",
     "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
@@ -518,6 +518,10 @@
   },
   {
    "run": "20261122T1838Z",
+   "total": 318740
+  },
+  {
+   "run": "20261122T2335Z",
    "total": 318740
   }
  ],
