@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-24T02:06-05:00",
+ "generado": "2026-11-24T04:51-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261124T0705Z",
- "ultimo_observado": "2026-11-24T07:05:56Z",
- "ejecuciones": 37,
+ "ultimo_run": "20261124T0951Z",
+ "ultimo_observado": "2026-11-24T09:51:06Z",
+ "ejecuciones": 38,
  "actual": {
   "ida": [
    {
@@ -74,13 +74,13 @@
    {
     "franja": "tarde",
     "tramo": "ida",
-    "precio": 162960,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
+    "precio": 178310,
+    "aerolinea": "LATAM",
+    "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "17:32",
-    "hora_llegada": "18:35",
-    "vuelo": "JA 5127",
+    "hora_salida": "17:20",
+    "hora_llegada": "18:25",
+    "vuelo": "LA 4017",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -89,13 +89,13 @@
    {
     "franja": "noche",
     "tramo": "ida",
-    "precio": 98460,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
+    "precio": 111430,
+    "aerolinea": "LATAM",
+    "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:52",
-    "hora_llegada": "22:55",
-    "vuelo": "JA 5121",
+    "hora_salida": "23:25",
+    "hora_llegada": "00:30",
+    "vuelo": "LA 4041",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -184,21 +184,6 @@
   "ida": [
    {
     "tramo": "ida",
-    "precio": 98460,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
-    "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:52",
-    "hora_llegada": "22:55",
-    "vuelo": "JA 5121",
-    "origen": "MDE",
-    "destino": "BOG",
-    "fuente": "google_flights",
-    "franja": "noche",
-    "fecha_vuelo": "2027-03-20"
-   },
-   {
-    "tramo": "ida",
     "precio": 111430,
     "aerolinea": "LATAM",
     "vendedor": "LATAM",
@@ -225,6 +210,36 @@
     "destino": "BOG",
     "fuente": "google_flights",
     "franja": "madrugada",
+    "fecha_vuelo": "2027-03-20"
+   },
+   {
+    "tramo": "ida",
+    "precio": 168790,
+    "aerolinea": "JetSMART",
+    "vendedor": "JetSMART",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "05:02",
+    "hora_llegada": "06:05",
+    "vuelo": "JA 5132",
+    "origen": "MDE",
+    "destino": "BOG",
+    "fuente": "google_flights",
+    "franja": "madrugada",
+    "fecha_vuelo": "2027-03-20"
+   },
+   {
+    "tramo": "ida",
+    "precio": 209900,
+    "aerolinea": "Clic",
+    "vendedor": "Clic",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "06:10",
+    "hora_llegada": "07:15",
+    "vuelo": "VE 9109",
+    "origen": "EOH",
+    "destino": "BOG",
+    "fuente": "google_flights",
+    "franja": "manana",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -291,6 +306,21 @@
    },
    {
     "tramo": "vuelta",
+    "precio": 202200,
+    "aerolinea": "Clic",
+    "vendedor": "Clic",
+    "tipo_vendedor": "aerolinea",
+    "hora_salida": "08:15",
+    "hora_llegada": "09:30",
+    "vuelo": "VE 9106",
+    "origen": "BOG",
+    "destino": "EOH",
+    "fuente": "google_flights",
+    "franja": "manana",
+    "fecha_vuelo": "2027-03-23"
+   },
+   {
+    "tramo": "vuelta",
     "precio": 414020,
     "aerolinea": "Avianca",
     "vendedor": "Avianca",
@@ -308,17 +338,17 @@
  },
  "agencias": [],
  "combo_actual": {
-  "total": 195820,
+  "total": 208790,
   "tramos": [
    {
     "tramo": "ida",
-    "precio": 98460,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
+    "precio": 111430,
+    "aerolinea": "LATAM",
+    "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:52",
-    "hora_llegada": "22:55",
-    "vuelo": "JA 5121",
+    "hora_salida": "23:25",
+    "hora_llegada": "00:30",
+    "vuelo": "LA 4041",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -516,6 +546,10 @@
   {
    "run": "20261124T0705Z",
    "total": 195820
+  },
+  {
+   "run": "20261124T0951Z",
+   "total": 208790
   }
  ],
  "historico": {
