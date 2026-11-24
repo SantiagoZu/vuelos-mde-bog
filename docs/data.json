@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-24T16:30-05:00",
+ "generado": "2026-11-24T17:24-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261124T2130Z",
- "ultimo_observado": "2026-11-24T21:30:12Z",
- "ejecuciones": 39,
+ "ultimo_run": "20261124T2224Z",
+ "ultimo_observado": "2026-11-24T22:24:24Z",
+ "ejecuciones": 40,
  "actual": {
   "ida": [
    {
@@ -409,7 +409,7 @@
    }
   ]
  },
- "nuevo_minimo": true,
+ "nuevo_minimo": false,
  "combos": [
   {
    "run": "20261110T0014Z",
@@ -553,6 +553,10 @@
   },
   {
    "run": "20261124T2130Z",
+   "total": 176060
+  },
+  {
+   "run": "20261124T2224Z",
    "total": 176060
   }
  ],
