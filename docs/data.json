@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-25T15:37-05:00",
+ "generado": "2026-11-25T22:33-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261125T2037Z",
- "ultimo_observado": "2026-11-25T20:37:38Z",
- "ejecuciones": 43,
+ "ultimo_run": "20261126T0332Z",
+ "ultimo_observado": "2026-11-26T03:32:42Z",
+ "ejecuciones": 44,
  "actual": {
   "ida": [
    {
@@ -136,7 +136,7 @@
    {
     "franja": "mediodia",
     "tramo": "vuelta",
-    "precio": 82720,
+    "precio": 109140,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -265,13 +265,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "10:20",
-    "hora_llegada": "11:32",
-    "vuelo": "JA 5139",
+    "hora_salida": "17:40",
+    "hora_llegada": "18:52",
+    "vuelo": "JA 5120",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
-    "franja": "mediodia",
+    "franja": "tarde",
     "fecha_vuelo": "2027-03-23"
    },
    {
@@ -306,17 +306,17 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 202200,
+    "precio": 231950,
     "aerolinea": "Clic",
     "vendedor": "Clic",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "08:15",
-    "hora_llegada": "09:30",
-    "vuelo": "VE 9106",
+    "hora_salida": "05:20",
+    "hora_llegada": "06:35",
+    "vuelo": "VE 9104",
     "origen": "BOG",
     "destino": "EOH",
     "fuente": "google_flights",
-    "franja": "manana",
+    "franja": "madrugada",
     "fecha_vuelo": "2027-03-23"
    },
    {
@@ -361,13 +361,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "10:20",
-    "hora_llegada": "11:32",
-    "vuelo": "JA 5139",
+    "hora_salida": "17:40",
+    "hora_llegada": "18:52",
+    "vuelo": "JA 5120",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
-    "franja": "mediodia",
+    "franja": "tarde",
     "fecha_vuelo": "2027-03-23"
    }
   ]
@@ -565,6 +565,10 @@
   },
   {
    "run": "20261125T2037Z",
+   "total": 166540
+  },
+  {
+   "run": "20261126T0332Z",
    "total": 166540
   }
  ],
