@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-25T22:33-05:00",
+ "generado": "2026-11-26T00:27-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,15 +21,15 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261126T0332Z",
- "ultimo_observado": "2026-11-26T03:32:42Z",
- "ejecuciones": 44,
+ "ultimo_run": "20261126T0527Z",
+ "ultimo_observado": "2026-11-26T05:27:13Z",
+ "ejecuciones": 45,
  "actual": {
   "ida": [
    {
     "franja": "madrugada",
     "tramo": "ida",
-    "precio": 83820,
+    "precio": 110240,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -151,13 +151,13 @@
    {
     "franja": "tarde",
     "tramo": "vuelta",
-    "precio": 82720,
+    "precio": 109140,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "17:40",
-    "hora_llegada": "18:52",
-    "vuelo": "JA 5120",
+    "hora_salida": "17:50",
+    "hora_llegada": "19:02",
+    "vuelo": "JA 5122",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
@@ -188,13 +188,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "05:02",
-    "hora_llegada": "06:05",
-    "vuelo": "JA 5132",
+    "hora_salida": "09:17",
+    "hora_llegada": "10:20",
+    "vuelo": "JA 5125",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
-    "franja": "madrugada",
+    "franja": "manana",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -265,13 +265,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "17:40",
-    "hora_llegada": "18:52",
-    "vuelo": "JA 5120",
+    "hora_salida": "18:25",
+    "hora_llegada": "19:37",
+    "vuelo": "JA 5114",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
-    "franja": "tarde",
+    "franja": "noche",
     "fecha_vuelo": "2027-03-23"
    },
    {
@@ -306,17 +306,17 @@
    },
    {
     "tramo": "vuelta",
-    "precio": 231950,
+    "precio": 202200,
     "aerolinea": "Clic",
     "vendedor": "Clic",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "05:20",
-    "hora_llegada": "06:35",
-    "vuelo": "VE 9104",
+    "hora_salida": "08:15",
+    "hora_llegada": "09:30",
+    "vuelo": "VE 9106",
     "origen": "BOG",
     "destino": "EOH",
     "fuente": "google_flights",
-    "franja": "madrugada",
+    "franja": "manana",
     "fecha_vuelo": "2027-03-23"
    },
    {
@@ -346,13 +346,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "05:02",
-    "hora_llegada": "06:05",
-    "vuelo": "JA 5132",
+    "hora_salida": "09:17",
+    "hora_llegada": "10:20",
+    "vuelo": "JA 5125",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
-    "franja": "madrugada",
+    "franja": "manana",
     "fecha_vuelo": "2027-03-20"
    },
    {
@@ -361,13 +361,13 @@
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "17:40",
-    "hora_llegada": "18:52",
-    "vuelo": "JA 5120",
+    "hora_salida": "18:25",
+    "hora_llegada": "19:37",
+    "vuelo": "JA 5114",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
-    "franja": "tarde",
+    "franja": "noche",
     "fecha_vuelo": "2027-03-23"
    }
   ]
@@ -570,6 +570,10 @@
   {
    "run": "20261126T0332Z",
    "total": 166540
+  },
+  {
+   "run": "20261126T0527Z",
+   "total": 166540
   }
  ],
  "historico": {
@@ -590,7 +594,8 @@
    "2026-11-22",
    "2026-11-23",
    "2026-11-24",
-   "2026-11-25"
+   "2026-11-25",
+   "2026-11-26"
   ],
   "series": {
    "ida": {
@@ -611,7 +616,8 @@
      159920,
      159920,
      88580,
-     83820
+     83820,
+     110240
     ],
     "manana": [
      153320,
@@ -630,6 +636,7 @@
      159920,
      159920,
      88580,
+     83820,
      83820
     ],
     "mediodia": [
@@ -649,6 +656,7 @@
      159920,
      159920,
      159920,
+     83820,
      83820
     ],
     "tarde": [
@@ -668,6 +676,7 @@
      162960,
      162960,
      88580,
+     83820,
      83820
     ],
     "noche": [
@@ -687,11 +696,13 @@
      98460,
      98460,
      88580,
+     83820,
      83820
     ]
    },
    "vuelta": {
     "madrugada": [
+     158820,
      158820,
      158820,
      158820,
@@ -727,6 +738,7 @@
      115330,
      110330,
      110330,
+     110330,
      110330
     ],
     "mediodia": [
@@ -746,7 +758,8 @@
      115330,
      97360,
      87480,
-     82720
+     82720,
+     109140
     ],
     "tarde": [
      158820,
@@ -765,7 +778,8 @@
      158820,
      158820,
      87480,
-     82720
+     82720,
+     109140
     ],
     "noche": [
      158820,
@@ -784,6 +798,7 @@
      158820,
      158820,
      87480,
+     82720,
      82720
     ]
    }
@@ -805,6 +820,7 @@
    213790,
    195820,
    176060,
+   166540,
    166540
   ]
  },
