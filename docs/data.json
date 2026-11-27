@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-27T03:44-05:00",
+ "generado": "2026-11-27T07:13-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261127T0844Z",
- "ultimo_observado": "2026-11-27T08:44:39Z",
- "ejecuciones": 3,
+ "ultimo_run": "20261127T1212Z",
+ "ultimo_observado": "2026-11-27T12:12:55Z",
+ "ejecuciones": 4,
  "actual": {
   "ida": [
    {
@@ -74,7 +74,7 @@
    {
     "franja": "tarde",
     "tramo": "ida",
-    "precio": 162960,
+    "precio": 188780,
     "aerolinea": "JetSMART",
     "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
@@ -93,9 +93,9 @@
     "aerolinea": "Wingo",
     "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "18:22",
-    "hora_llegada": "19:20",
-    "vuelo": "P5 7275",
+    "hora_salida": "20:22",
+    "hora_llegada": "21:20",
+    "vuelo": "P5 7279",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -199,13 +199,13 @@
    },
    {
     "tramo": "ida",
-    "precio": 102750,
-    "aerolinea": "JetSMART",
-    "vendedor": "JetSMART",
+    "precio": 124520,
+    "aerolinea": "LATAM",
+    "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "22:27",
-    "hora_llegada": "23:30",
-    "vuelo": "JA 5121",
+    "hora_salida": "23:25",
+    "hora_llegada": "00:30",
+    "vuelo": "LA 4041",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -214,13 +214,13 @@
    },
    {
     "tramo": "ida",
-    "precio": 124520,
-    "aerolinea": "LATAM",
-    "vendedor": "LATAM",
+    "precio": 162960,
+    "aerolinea": "JetSMART",
+    "vendedor": "JetSMART",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "23:25",
-    "hora_llegada": "00:30",
-    "vuelo": "LA 4041",
+    "hora_salida": "22:27",
+    "hora_llegada": "23:30",
+    "vuelo": "JA 5121",
     "origen": "MDE",
     "destino": "BOG",
     "fuente": "google_flights",
@@ -421,6 +421,10 @@
   },
   {
    "run": "20261127T0844Z",
+   "total": 180900
+  },
+  {
+   "run": "20261127T1212Z",
    "total": 180900
   }
  ],
