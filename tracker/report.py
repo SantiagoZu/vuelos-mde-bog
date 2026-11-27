@@ -37,9 +37,17 @@ def _ficha(r: dict) -> dict:
     return {c: r[c] for c in campos}
 
 
+def vigentes(filas: list[dict], cfg: Config) -> list[dict]:
+    """Solo las observaciones de las fechas configuradas hoy. Si cambian las fechas del
+    viaje, el histórico viejo se conserva en el CSV pero no se mezcla en el análisis."""
+    fechas = {t.nombre: t.fecha.isoformat() for t in cfg.tramos}
+    return [r for r in filas if fechas.get(r["tramo"]) == r["fecha_vuelo"]]
+
+
 def construir(filas: list[dict], cfg: Config) -> dict:
     tramos = [t.nombre for t in cfg.tramos]
     franjas = [f.nombre for f in cfg.franjas]
+    filas = vigentes(filas, cfg)
     if not filas:
         return {"generado": datetime.now(TZ).isoformat(timespec="minutes"), "vacio": True,
                 "tramos": tramos, "franjas": franjas}

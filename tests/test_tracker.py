@@ -11,12 +11,17 @@ from tracker.models import Observacion
 from tracker.sources import google_flights, serpapi
 
 
+_CFG = load_config()
+IDA = _CFG.tramos[0].fecha        # fechas del viaje según config.yaml
+VUELTA = _CFG.tramos[1].fecha
+
+
 @pytest.fixture
 def cfg():
     return load_config()
 
 
-def _gf_item(price, hh, mm, airline="Avianca", code="AV", num="8501", date=(2027, 3, 20), frm="MDE", to="BOG", segs=1):
+def _gf_item(price, hh, mm, airline="Avianca", code="AV", num="8501", date=(IDA.year, IDA.month, IDA.day), frm="MDE", to="BOG", segs=1):
     seg = NS(
         from_airport=NS(code=frm, name=frm), to_airport=NS(code=to, name=to),
         departure=NS(date=date, time=(hh, mm)), arrival=NS(date=date, time=(hh + 1, mm)),
@@ -40,7 +45,7 @@ def test_google_flights_parse_filtra(cfg):
         _gf_item(180000, 21, 10, airline="JetSMART", code="JA", num="5201"),
         _gf_item(0, 9, 0),                       # sin precio -> fuera
         _gf_item(99000, 9, 0, segs=2),           # con escala -> fuera (solo_directos)
-        _gf_item(99000, 9, 0, date=(2027, 3, 21)),  # otra fecha -> fuera
+        _gf_item(99000, 9, 0, date=(IDA.year, IDA.month, IDA.day + 1)),  # otra fecha -> fuera
     ]
     obs = google_flights.a_observaciones(items, tramo, cfg, "R1", "2026-11-10T11:41:00Z")
     assert [(o.franja, o.precio, o.aerolinea) for o in obs] == [
@@ -51,8 +56,8 @@ def test_google_flights_parse_filtra(cfg):
 def test_serpapi_booking_options(cfg):
     tramo = cfg.tramos[1]
     item = {
-        "flights": [{"departure_airport": {"id": "BOG", "time": "2027-03-23 07:15"},
-                     "arrival_airport": {"id": "MDE", "time": "2027-03-23 08:20"},
+        "flights": [{"departure_airport": {"id": "BOG", "time": f"{VUELTA} 07:15"},
+                     "arrival_airport": {"id": "MDE", "time": f"{VUELTA} 08:20"},
                      "airline": "LATAM", "flight_number": "LA 4023", "duration": 65}],
         "price": 210000, "booking_token": "tok",
     }
@@ -69,8 +74,9 @@ def test_serpapi_booking_options(cfg):
 
 
 def _obs(run, ts, tramo, hora, precio, vendedor="Avianca", tipo="aerolinea", cfg=None):
+    fecha = (IDA if tramo == "ida" else VUELTA).isoformat()
     return Observacion(run, ts, "google_flights", vendedor, tipo, tramo, "MDE", "BOG",
-                       "2027-03-20", hora, "23:59", cfg.franja_de(int(hora[:2])), "Avianca",
+                       fecha, hora, "23:59", cfg.franja_de(int(hora[:2])), "Avianca",
                        "AV 1", 0, 60, precio, "COP", 1)
 
 
@@ -233,3 +239,15 @@ def test_alerta_objetivo_por_tramo(cfg):
     ahora = datetime(2026, 11, 27, tzinfo=timezone.utc)
     estado = {a.regla: {"precio": a.precio, "cuando": (ahora - timedelta(days=3)).isoformat()} for a in alertas}
     assert alerts.filtrar_nuevas(alertas, estado, ahora, 24) == []
+
+
+def test_historico_de_otras_fechas_no_se_mezcla(cfg):
+    """Si se cambian las fechas del viaje, las filas viejas se ignoran en el análisis."""
+    viejas = [_obs("R0", "2026-11-09T11:41:00Z", t, "06:30", 50000, cfg=cfg).as_row() for t in ("ida", "vuelta")]
+    for r in viejas:
+        r["fecha_vuelo"] = "2027-01-01"
+    nuevas = [_obs("R1", "2026-11-10T11:41:00Z", "ida", "06:30", 150000, cfg=cfg).as_row(),
+              _obs("R1", "2026-11-10T11:41:00Z", "vuelta", "19:00", 160000, cfg=cfg).as_row()]
+    assert report.vigentes(viejas + nuevas, cfg) == nuevas
+    d = report.construir(viejas + nuevas, cfg)
+    assert d["combo_actual"]["total"] == 310000 and d["ejecuciones"] == 1

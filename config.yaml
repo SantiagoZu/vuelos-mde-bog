@@ -13,11 +13,11 @@ viaje:
 
   tramos:
     - nombre: ida
-      fecha: "2027-03-20"
+      fecha: "2027-03-19"   # viernes, primer día del festival
       origenes: [MDE, EOH]     # MDE = José María Córdova (Rionegro), EOH = Olaya Herrera
       destinos: [BOG]
     - nombre: vuelta
-      fecha: "2027-03-23"
+      fecha: "2027-03-22"   # lunes siguiente
       origenes: [BOG]
       destinos: [MDE, EOH]
 
@@ -71,4 +71,4 @@ alertas:
   enfriamiento_horas: 24
 
 # Después de esta fecha el pipeline deja de consultar (ya no tiene sentido).
-dejar_de_rastrear_despues_de: "2027-03-20"
+dejar_de_rastrear_despues_de: "2027-03-19"

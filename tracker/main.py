@@ -62,7 +62,7 @@ def run(force_serpapi: bool = False) -> int:
             log.warning("%s", e)
     _summary("\n".join(resumen) + "\n")
 
-    filas = storage.leer()
+    filas = report.vigentes(storage.leer(), cfg)
     d = report.construir(filas, cfg)
     md = report.escribir(d)
     _summary(md)

@@ -1,14 +1,1 @@
-{
- "caida_pct_vs_anterior": {
-  "cuando": "2026-11-27T01:44+00:00",
-  "precio": 144420
- },
- "caida_pct_vs_promedio_7d": {
-  "cuando": "2026-11-27T01:44+00:00",
-  "precio": 144420
- },
- "nuevo_minimo_historico": {
-  "cuando": "2026-11-27T01:44+00:00",
-  "precio": 144420
- }
-}
+{}

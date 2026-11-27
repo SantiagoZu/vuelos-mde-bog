@@ -2,8 +2,8 @@
 
 Revisa **dos veces al día** (≈ 6:41 a.m. y 6:41 p.m. hora Colombia) —y **cada 3 horas del 20 de noviembre al 2 de diciembre**, por Black Week/Black Friday/Cyber Monday— los precios para:
 
-- **Ida:** 20 de marzo de 2027 · MDE (Rionegro) / EOH (Olaya Herrera) → BOG
-- **Vuelta:** 23 de marzo de 2027 · BOG → MDE / EOH
+- **Ida:** viernes 19 de marzo de 2027 · MDE (Rionegro) / EOH (Olaya Herrera) → BOG
+- **Vuelta:** lunes 22 de marzo de 2027 · BOG → MDE / EOH
 
 Agrupa los vuelos en **franjas horarias** (madrugada, mañana, mediodía, tarde, noche), guarda cada
 consulta en un histórico y publica un dashboard con el más barato de cada franja, el mínimo histórico
@@ -72,7 +72,10 @@ cron (2x/día) ─▶ tests ─▶ python -m tracker.main run
                          ─▶ commit al repo ─▶ GitHub Pages se actualiza solo
 ```
 
-El pipeline deja de consultar automáticamente después del 20 de marzo de 2027.
+El pipeline deja de consultar automáticamente después del 19 de marzo de 2027.
+
+Si cambias las fechas en `config.yaml`, el histórico anterior se queda en el CSV pero el dashboard y las alertas
+solo usan las observaciones de las fechas nuevas.
 
 ## Consumo de GitHub Actions
 
