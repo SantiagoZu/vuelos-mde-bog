@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-27T22:23-05:00",
+ "generado": "2026-11-27T23:57-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,10 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261128T0323Z",
- "ultimo_observado": "2026-11-28T03:23:06Z",
+ "ultimo_run": "20261128T0456Z",
+ "ultimo_observado": "2026-11-28T04:56:52Z",
  "ejecuciones": 8,
+ "ultimo_run_incompleto": null,
  "actual": {
   "ida": [
    {
@@ -170,9 +171,9 @@
     "aerolinea": "Wingo",
     "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:15",
-    "hora_llegada": "22:17",
-    "vuelo": "P5 7608",
+    "hora_salida": "19:40",
+    "hora_llegada": "20:42",
+    "vuelo": "P5 7276",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
@@ -265,13 +266,13 @@
     "aerolinea": "Wingo",
     "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:15",
-    "hora_llegada": "22:17",
-    "vuelo": "P5 7608",
+    "hora_salida": "02:45",
+    "hora_llegada": "03:47",
+    "vuelo": "P5 7506",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
-    "franja": "noche",
+    "franja": "madrugada",
     "fecha_vuelo": "2027-03-22"
    },
    {
@@ -361,13 +362,13 @@
     "aerolinea": "Wingo",
     "vendedor": "Wingo",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "21:15",
-    "hora_llegada": "22:17",
-    "vuelo": "P5 7608",
+    "hora_salida": "02:45",
+    "hora_llegada": "03:47",
+    "vuelo": "P5 7506",
     "origen": "BOG",
     "destino": "MDE",
     "fuente": "google_flights",
-    "franja": "noche",
+    "franja": "madrugada",
     "fecha_vuelo": "2027-03-22"
    }
   ]
@@ -432,15 +433,15 @@
    "total": 180900
   },
   {
-   "run": "20261127T2115Z",
-   "total": 714360
-  },
-  {
    "run": "20261128T0319Z",
    "total": 180900
   },
   {
    "run": "20261128T0323Z",
+   "total": 180900
+  },
+  {
+   "run": "20261128T0456Z",
    "total": 180900
   }
  ],
