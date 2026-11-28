@@ -1,1 +1,10 @@
-{}
+{
+ "caida_pct_vs_anterior": {
+  "cuando": "2026-11-28T03:19+00:00",
+  "precio": 180900
+ },
+ "caida_pct_vs_promedio_7d": {
+  "cuando": "2026-11-28T03:19+00:00",
+  "precio": 180900
+ }
+}
