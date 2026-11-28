@@ -251,3 +251,28 @@ def test_historico_de_otras_fechas_no_se_mezcla(cfg):
     assert report.vigentes(viejas + nuevas, cfg) == nuevas
     d = report.construir(viejas + nuevas, cfg)
     assert d["combo_actual"]["total"] == 310000 and d["ejecuciones"] == 1
+
+
+def test_ejecucion_incompleta_no_cuenta_ni_dispara_alertas(cfg):
+    """Un scraping parcial (3 vuelos caros) no debe verse como 'subió' ni luego 'bajó'."""
+    _reglas(cfg, caida_pct_vs_anterior=10, nuevo_minimo_historico=True)
+    filas = []
+    for i, run in enumerate(["R1", "R2", "R4"]):
+        ts = f"2026-11-2{i + 1}T11:41:00Z"
+        for h in range(5, 20):
+            filas.append(_obs(run, ts, "ida", f"{h:02d}:00", 91000 + h, cfg=cfg).as_row())
+            filas.append(_obs(run, ts, "vuelta", f"{h:02d}:30", 89900 + h, cfg=cfg).as_row())
+    # R3: Google solo devolvió 3 vuelos carísimos
+    filas += [_obs("R3", "2026-11-23T20:00:00Z", "ida", "17:10", 399110, cfg=cfg).as_row(),
+              _obs("R3", "2026-11-23T20:00:00Z", "vuelta", "15:30", 315250, cfg=cfg).as_row()]
+    assert report.runs_incompletos(filas, ["ida", "vuelta"]) == {"R3"}
+    d = report.construir(filas, cfg)
+    assert d["ultimo_run"] == "R4" and d["ultimo_run_incompleto"] is None
+    assert [c["run"] for c in d["combos"]] == ["R1", "R2", "R4"]
+    assert alerts.evaluar(report.para_analisis(filas, cfg), d, cfg) == []
+
+    # Si la incompleta es la última, se reporta la última completa y se marca
+    filas += [_obs("R5", "2026-11-25T20:00:00Z", "ida", "17:10", 399110, cfg=cfg).as_row(),
+              _obs("R5", "2026-11-25T20:00:00Z", "vuelta", "15:30", 315250, cfg=cfg).as_row()]
+    d = report.construir(filas, cfg)
+    assert d["ultimo_run"] == "R4" and d["ultimo_run_incompleto"] == "R5"

@@ -227,7 +227,8 @@ fetch("data.json?t=" + Date.now()).then(r => r.json()).then(d => {
   if (d.vacio) { document.getElementById("meta").textContent = "Aún no hay datos: espera la primera ejecución del workflow."; return; }
   document.getElementById("meta").innerHTML =
     `Actualizado ${esc(d.generado.replace("T"," ").slice(0,16))} · ${d.ejecuciones} consultas · ${esc(d.moneda)} · ${d.pasajeros} adulto(s)` +
-    (d.nuevo_minimo ? ` · <span class="hot">🔥 nuevo mínimo histórico</span>` : "");
+    (d.nuevo_minimo ? ` · <span class="hot">🔥 nuevo mínimo histórico</span>` : "") +
+    (d.ultimo_run_incompleto ? `<br>⚠️ La última consulta vino incompleta (Google devolvió muy pocos vuelos); se muestra la anterior.` : "");
   if (d.combo_actual) {
     document.getElementById("combo").innerHTML = bigPrice(d.combo_actual.total);
     document.getElementById("comboLegs").innerHTML = d.combo_actual.tramos.map(legLine).join("");

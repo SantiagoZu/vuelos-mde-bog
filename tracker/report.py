@@ -44,10 +44,41 @@ def vigentes(filas: list[dict], cfg: Config) -> list[dict]:
     return [r for r in filas if fechas.get(r["tramo"]) == r["fecha_vuelo"]]
 
 
+MIN_FILAS_TRAMO = 1        # piso absoluto de vuelos por tramo en una ejecución válida
+FRACCION_MEDIANA = 0.4     # y al menos el 40 % de lo que suele traer cada tramo
+
+
+def runs_incompletos(filas: list[dict], tramos: list[str]) -> set[str]:
+    """Ejecuciones en las que Google devolvió muy pocos vuelos para algún tramo
+    (scraping parcial). Se conservan en el CSV, pero no cuentan para precios,
+    mínimos, gráficas ni alertas: compararían contra un precio que no existe."""
+    conteo: dict[tuple, int] = defaultdict(int)
+    runs = set()
+    for r in filas:
+        conteo[(r["run_id"], r["tramo"])] += 1
+        runs.add(r["run_id"])
+    malos = set()
+    for t in tramos:
+        valores = sorted(conteo.get((run, t), 0) for run in runs)
+        mediana = valores[len(valores) // 2] if valores else 0
+        minimo = max(MIN_FILAS_TRAMO, int(mediana * FRACCION_MEDIANA))
+        malos |= {run for run in runs if conteo.get((run, t), 0) < minimo}
+    return malos
+
+
+def para_analisis(filas: list[dict], cfg: Config) -> list[dict]:
+    """Filas de las fechas vigentes y de ejecuciones completas."""
+    filas = vigentes(filas, cfg)
+    malos = runs_incompletos(filas, [t.nombre for t in cfg.tramos])
+    return [r for r in filas if r["run_id"] not in malos]
+
+
 def construir(filas: list[dict], cfg: Config) -> dict:
     tramos = [t.nombre for t in cfg.tramos]
     franjas = [f.nombre for f in cfg.franjas]
-    filas = vigentes(filas, cfg)
+    todas = vigentes(filas, cfg)
+    filas = para_analisis(filas, cfg)
+    ultimo_intento = max((r["run_id"] for r in todas), default=None)
     if not filas:
         return {"generado": datetime.now(TZ).isoformat(timespec="minutes"), "vacio": True,
                 "tramos": tramos, "franjas": franjas}
@@ -126,6 +157,8 @@ def construir(filas: list[dict], cfg: Config) -> dict:
         "ultimo_run": ultimo_run,
         "ultimo_observado": ult[0]["observado_utc"],
         "ejecuciones": len(runs),
+        # La última ejecución vino incompleta: lo mostrado es de la última completa
+        "ultimo_run_incompleto": ultimo_intento if ultimo_intento and ultimo_intento != ultimo_run else None,
         "actual": actual,
         "por_aerolinea": por_aerolinea,
         "agencias": agencias,

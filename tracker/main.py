@@ -62,13 +62,17 @@ def run(force_serpapi: bool = False) -> int:
             log.warning("%s", e)
     _summary("\n".join(resumen) + "\n")
 
-    filas = report.vigentes(storage.leer(), cfg)
-    d = report.construir(filas, cfg)
+    vig = report.vigentes(storage.leer(), cfg)
+    d = report.construir(vig, cfg)            # marca si la última ejecución vino incompleta
+    filas = report.para_analisis(vig, cfg)
     md = report.escribir(d)
     _summary(md)
     print(md)
 
-    if nuevas:
+    if d.get("ultimo_run_incompleto"):
+        log.warning("Ejecución %s incompleta (Google devolvió muy pocos vuelos): no se evalúan alertas.", run_id)
+        _summary(f"> ⚠️ Ejecución incompleta: se ignora para precios y alertas.\n")
+    elif nuevas:
         enviadas = alerts.procesar(filas, d, cfg)
         if enviadas:
             _summary("### 🔔 Alertas enviadas\n\n" + "\n".join(f"- {a.texto}" for a in enviadas) + "\n")
