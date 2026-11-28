@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-27T23:57-05:00",
+ "generado": "2026-11-28T10:29-05:00",
  "moneda": "COP",
  "pasajeros": 1,
  "tramos": [
@@ -21,9 +21,9 @@
   "ida": "MDE/EOH → BOG",
   "vuelta": "BOG → MDE/EOH"
  },
- "ultimo_run": "20261128T0456Z",
- "ultimo_observado": "2026-11-28T04:56:52Z",
- "ejecuciones": 8,
+ "ultimo_run": "20261128T1528Z",
+ "ultimo_observado": "2026-11-28T15:28:55Z",
+ "ejecuciones": 9,
  "ultimo_run_incompleto": null,
  "actual": {
   "ida": [
@@ -122,15 +122,15 @@
    {
     "franja": "manana",
     "tramo": "vuelta",
-    "precio": 231950,
-    "aerolinea": "Clic",
-    "vendedor": "Clic",
+    "precio": 208150,
+    "aerolinea": "LATAM",
+    "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "07:35",
-    "hora_llegada": "08:50",
-    "vuelo": "VE 9110",
+    "hora_salida": "06:15",
+    "hora_llegada": "07:20",
+    "vuelo": "LA 4002",
     "origen": "BOG",
-    "destino": "EOH",
+    "destino": "MDE",
     "fuente": "google_flights",
     "fecha_vuelo": "2027-03-22"
    },
@@ -443,32 +443,42 @@
   {
    "run": "20261128T0456Z",
    "total": 180900
+  },
+  {
+   "run": "20261128T1528Z",
+   "total": 180900
   }
  ],
  "historico": {
   "dias": [
    "2026-11-26",
-   "2026-11-27"
+   "2026-11-27",
+   "2026-11-28"
   ],
   "series": {
    "ida": {
     "madrugada": [
      91000,
+     91000,
      91000
     ],
     "manana": [
+     91000,
      91000,
      91000
     ],
     "mediodia": [
      91000,
+     91000,
      91000
     ],
     "tarde": [
      162960,
-     162960
+     162960,
+     177600
     ],
     "noche": [
+     91000,
      91000,
      91000
     ]
@@ -476,27 +486,33 @@
    "vuelta": {
     "madrugada": [
      89900,
+     89900,
      89900
     ],
     "manana": [
      231950,
-     231950
+     231950,
+     208150
     ],
     "mediodia": [
      89900,
-     89900
+     89900,
+     136710
     ],
     "tarde": [
+     167690,
      167690,
      167690
     ],
     "noche": [
+     89900,
      89900,
      89900
     ]
    }
   },
   "combo": [
+   180900,
    180900,
    180900
   ]
@@ -603,19 +619,19 @@
    },
    "manana": {
     "tramo": "vuelta",
-    "precio": 231950,
-    "aerolinea": "Clic",
-    "vendedor": "Clic",
+    "precio": 208150,
+    "aerolinea": "LATAM",
+    "vendedor": "LATAM",
     "tipo_vendedor": "aerolinea",
-    "hora_salida": "07:35",
-    "hora_llegada": "08:50",
-    "vuelo": "VE 9110",
+    "hora_salida": "06:15",
+    "hora_llegada": "07:20",
+    "vuelo": "LA 4002",
     "origen": "BOG",
-    "destino": "EOH",
+    "destino": "MDE",
     "fuente": "google_flights",
     "franja": "manana",
     "fecha_vuelo": "2027-03-22",
-    "dia": "2026-11-26"
+    "dia": "2026-11-28"
    },
    "mediodia": {
     "tramo": "vuelta",
